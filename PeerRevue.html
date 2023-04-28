@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+ <!-- Jordan A  -->
+  <!--This is the HTML file that defines our components and their functions !  -->
+<html>
+<head> 
+     <base target="_top">
+<style>
+/********************************************** 
+ Define .center class
+ It moves all components to the center 
+ ********************************************/ 
+ .center{
+margin: auto;
+padding: 10px;
+height: 100px; 
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+}
+/*************************************************
+  Define .pointsBox class 
+************************************************/
+.pointsBox{
+  margin: auto;
+  padding: 10px;
+
+/* Set size of Box */
+  width: 200px;
+  height: 50px;
+  
+  /* Center Align */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  /* Set background color and border */
+  background-color: white;
+  border: 3px black;
+}
+ </style>
+</head> 
+
+ <!-- Body Begins now, we can use the classes we defined above -->
+<body>
+
+<!-- Declare these variables in a global scope so that is accessible throughout the script -->
+<script>
+var points = 0;
+var username ="Dr. Dreamy";
+var rewardText ="";
+var previousColor = "";
+</script>
+
+<!---- Display Username ---->
+<div class= "center">
+<h2 id="username"></h2>
+</div>
+
+<!------ Display Points ----->
+<div class="pointsBox">
+<h2 id="points"></h2>
+</div>
+
+<!--- Display text to communicate with the user when they get a reward of some kind. --->
+<div class="center">
+<p id="rewardText"></p>
+
+
+<script>
+document.getElementById("points").innerHTML = points;
+document.getElementById("username").innerHTML = username;
+
+// Set default color of background 
+document.querySelector("body").style.backgroundColor = "lightblue";
+</script>
+
+
+<!------ Display Message to user that  
+
+
+
+<!-- Script that interfaces with Google Docs api to update points  -->
+<script>  
+  function updatePoints(){
+   // points = points +1;
+    document.getElementById("points").innerHTML = points;
+    document.getElementById("rewardText").innerHTML = rewardText;
+    }
+
+    // Set an interval so that this function is called repeatedly.
+    // 1000 miliseconds = 1 second. 
+    setInterval(updatePoints,1000);
+
+    // Increase points and reward user for customizing their invironment
+    function customizationBonus(){
+      points+=5;
+      rewardText = "You updated your environment! + 5 ";
+    }
+</script>
+
+
+
+
+</div>
+    <div class="center">
+      <details>
+        <summary>Customize Options</summary>
+        <!-- Give component description to user -->
+        <p>Select a background color:</p>
+        <input type="color" id="color-picker" name="color-picker">
+         <!-- Assign button function -->
+         <button id="apply-color-button">Apply Color</button>
+      </details>
+    </div>
+
+
+
+ <!-- Apply Color Element Script : Provides Color Setting Functionality -->
+    <script>
+      document.getElementById("apply-color-button").addEventListener("click", function() {
+        // Get the input elements
+        var colorInput = document.getElementById("color-picker");
+        var imageInput = document.getElementById("image-picker");
+
+        // Get the body element
+        var body = document.querySelector("body");
+
+        // Set the background color
+        if (colorInput.value != "" &&  (colorInput.value != previousColor)) {
+          body.style.backgroundColor = colorInput.value;
+          // Call customization Bonus
+          customizationBonus();
+         
+        } 
+
+        previousColor = colorInput.value;
+        
+      });
+    </script>
+  
+
+ </body> <!-- End of Body -->
+
+</html>
+
