@@ -4,7 +4,6 @@
  *  This file is responsible for handling "server-side" functions that interface with the google doc and other google api 
  */
 
-
 /**
  * @OnlyCurrentDoc
  *
@@ -58,11 +57,14 @@ function showSidebar() {
 
 
 /***********************
- * This function must be called by a trigger to run
- * Click the Clock icon to see "Triggers" menu. 
- * Create a time-based trigger so that  this function
- * is called every minute
+ * This function checks if there are any more words 
  */
-function checkForChanges(e){
+function howManyWords(e){
+  var space = " ";
+  var text = DocumentApp.getActiveDocument().getBody().getText();
+  var words = text.replace(/\s+/g, space).split(space);
 
+  return words.length;
+  
 }
+
