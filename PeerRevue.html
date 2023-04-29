@@ -51,6 +51,8 @@ var points = 0;
 var username ="Dr. Dreamy";
 var rewardText ="";
 var previousColor = "";
+// for now we are starting at zero, but we are going to want start at the original word count for the doc
+var numWords = 0;
 </script>
 
 <!---- Display Username ---->
@@ -83,20 +85,42 @@ document.querySelector("body").style.backgroundColor = "lightblue";
 
 <!-- Script that interfaces with Google Docs api to update points  -->
 <script>  
-  function updatePoints(){
-   // points = points +1;
-    document.getElementById("points").innerHTML = points;
-    document.getElementById("rewardText").innerHTML = rewardText;
-    }
 
-    // Set an interval so that this function is called repeatedly.
+    function retrieveHowManyWordsFromGoogleDocs(words) {
+        // Calculate if there are any new words
+        var wordIncrease = words - numWords;
+
+        var pointIncrease = wordIncrease *2; // + 2 for each new word
+
+        // Add new points
+        points+=pointIncrease;
+
+        if(wordIncrease > 0){
+          rewardText = " +" + pointIncrease.toString() + " points for adding words to your document!";
+          document.getElementById('points').innerHTML = points;
+          document.getElementById("rewardText").innerHTML = rewardText;
+        }
+
+       //update numWords
+       numWords+=wordIncrease;
+
+      }
+ 
+    function checkForWordIncrease(){
+      google.script.run.withSuccessHandler(retrieveHowManyWordsFromGoogleDocs).howManyWords();
+
+    }      
+      
+    // Set an interval so that we are regularly retrieving points from google docs
     // 1000 miliseconds = 1 second. 
-    setInterval(updatePoints,1000);
+    setInterval(checkForWordIncrease,2000);
 
     // Increase points and reward user for customizing their invironment
     function customizationBonus(){
       points+=5;
       rewardText = "You updated your environment! + 5 ";
+      document.getElementById("points").innerHTML = points;
+      document.getElementById("rewardText").innerHTML = rewardText;
     }
 </script>
 
@@ -144,4 +168,5 @@ document.querySelector("body").style.backgroundColor = "lightblue";
  </body> <!-- End of Body -->
 
 </html>
+
 
