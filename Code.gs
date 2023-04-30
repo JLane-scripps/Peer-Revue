@@ -56,15 +56,52 @@ function showSidebar() {
 }
 
 
-/***********************
- * This function checks if there are any more words 
+/************************
+ * Gets html from another file in the project 
+ * 
  */
-function howManyWords(e){
+function getAquariumHtml() {
+  var html = HtmlService.createTemplateFromFile('Aquarium.html').getRawContent();
+  Logger.log(html)
+  return html;
+}
+
+
+
+
+/***********************
+ * Counts words in a Google Doc 
+ * @ return how many words
+ */
+function howManyWords(){
   var space = " ";
   var text = DocumentApp.getActiveDocument().getBody().getText();
   var words = text.replace(/\s+/g, space).split(space);
-
   return words.length;
   
 }
+
+/************************
+ * Counts paragraphs in a Google Doc 
+ * @return how many paragraphs 
+ */
+function howManyParagraphs(){
+  // Lets try counting the occurences of tabs instead. 
+  var find = '\t';
+  var text = DocumentApp.getActiveDocument().getBody().getText();
+  return (text.split(find)).length - 1;
+
+  // This is google docs definition of paragraphs - a bit too broad for us
+  //Logger.log(DocumentApp.getActiveDocument().getBody().getParagraphs().length)
+  //return DocumentApp.getActiveDocument().getBody().getParagraphs().length;
+
+}
+
+
+
+
+
+
+
+
 
