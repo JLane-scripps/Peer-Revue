@@ -51,8 +51,25 @@ var points = 0;
 var username ="Dr. Dreamy";
 var rewardText ="";
 var previousColor = "";
-// for now we are starting at zero, but we are going to want start at the original word count for the doc
-var numWords = 0;
+var numWords;
+var numParagraphs = 0;
+// Init num words
+function initWordCount(initialWordCount){
+  numWords  = initialWordCount;
+}
+google.script.run.withSuccessHandler(initWordCount).howManyWords();
+
+// Init num paragraphs
+function initParagraphCount(initialParagraphCount){
+  numParagraphs = initialParagraphCount;
+}
+google.script.run.withSuccessHandler(initParagraphCount).howManyParagraphs();
+
+// init aquariumHtml
+function initAquariumHtml(html){
+  aquariumHtml = html;
+}
+google.script.run.withSuccessHandler(initAquariumHtml).getAquariumHtml();
 </script>
 
 <!---- Display Username ---->
@@ -92,57 +109,86 @@ document.querySelector("body").style.backgroundColor = "lightblue";
 
         var pointIncrease = wordIncrease *2; // + 2 for each new word
 
-        // Add new points
-        points+=pointIncrease;
-
         if(wordIncrease > 0){
-          rewardText = " +" + pointIncrease.toString() + " points for adding words to your document!";
+          // Add new points
+          points+=pointIncrease 
+          rewardText = " Keep going! +" + pointIncrease.toString();
           document.getElementById('points').innerHTML = points;
           document.getElementById("rewardText").innerHTML = rewardText;
         }
 
        //update numWords
        numWords+=wordIncrease;
-
       }
- 
-    function checkForWordIncrease(){
-      google.script.run.withSuccessHandler(retrieveHowManyWordsFromGoogleDocs).howManyWords();
 
+
+    function retrieveHowManyParagraphsFromGoogleDocs(paragraphs){
+        // Calculate if there are any new paragraphs
+        var paraIncrease = paragraphs - numParagraphs;
+
+        var pointIncrease = paraIncrease * 50; // + 50 for each new paragraph
+        if(paraIncrease > 0){
+          // Add new points
+          points +=pointIncrease;
+          rewardText = " New Paragraphs added +" + pointIncrease.toString();
+          document.getElementById('points').innerHTML = points;
+          document.getElementById("rewardText").innerHTML = rewardText;
+        }
+
+       //update numParagraphs
+       numParagraphs += paraIncrease;
+    }
+ 
+    /* Functions that call google.script.run so that they can be set to
+     be ran at a certain interval */ 
+     function checkForWordIncrease(){
+      google.script.run.withSuccessHandler(retrieveHowManyWordsFromGoogleDocs).howManyWords();
     }      
-      
-    // Set an interval so that we are regularly retrieving points from google docs
-    // 1000 miliseconds = 1 second. 
+     function checkForParagraphIncrease(){
+      google.script.run.withSuccessHandler(retrieveHowManyParagraphsFromGoogleDocs).howManyParagraphs();
+    }      
+
+    /* Set an interval so that we are regularly retrieving 
+     a word count from google docs
+     1000 miliseconds = 1 second. */
     setInterval(checkForWordIncrease,2000);
+
+    /* Set another interval, but make sure that it is different than 
+     the other interval so that these calls are not competing with eachother. */
+    setInterval(checkForParagraphIncrease, 5500);
 
     // Increase points and reward user for customizing their invironment
     function customizationBonus(){
-      points+=5;
-      rewardText = "You updated your environment! + 5 ";
+      points+=1;
+      rewardText = "You updated your environment! + 1 ";
       document.getElementById("points").innerHTML = points;
       document.getElementById("rewardText").innerHTML = rewardText;
     }
 </script>
 
-
-
-
-</div>
-    <div class="center">
+<!-- Customize Options -->  
       <details>
         <summary>Customize Options</summary>
         <!-- Give component description to user -->
-        <p>Select a background color:</p>
+        <summary>Select a background color:</summary>
         <input type="color" id="color-picker" name="color-picker">
          <!-- Assign button function -->
          <button id="apply-color-button">Apply Color</button>
       </details>
+
+ <!-- Mini Games ---> 
+       <details>
+        <summary>Mini Games </summary>
+        <!-- Give component description to user -->
+        <button id="aquariumButton">Aquarium</button>
+      </details>
+
+
     </div>
 
-
-
- <!-- Apply Color Element Script : Provides Color Setting Functionality -->
+ <!-- Assign functions to buttons  -->
     <script>
+      /* Background color changing button functionality */ 
       document.getElementById("apply-color-button").addEventListener("click", function() {
         // Get the input elements
         var colorInput = document.getElementById("color-picker");
@@ -158,10 +204,20 @@ document.querySelector("body").style.backgroundColor = "lightblue";
           customizationBonus();
          
         } 
-
         previousColor = colorInput.value;
-        
       });
+
+
+    
+   
+
+    /* Aquarium button functionality  */
+    document.getElementById("aquariumButton").addEventListener("click", function() {
+         aquariumWindow = window.open("", " Aquarium ", "location=1,status=1,scrollbars=1,width=800,height=800");
+         // write html data to window 
+         aquariumWindow.document.write(aquariumHtml);
+        }); 
+    
     </script>
   
 
