@@ -1,192 +1,371 @@
 <!DOCTYPE html>
  <!-- Jordan A  -->
-  <!--This is the HTML file that defines our components and their functions !  -->
+<!--This is the HTML file that defines our components and their functions !  -->
 <html>
-<head> 
-     <base target="_top">
-<style>
-/********************************************** 
- Define .center class
- It moves all components to the center 
- ********************************************/ 
- .center{
-margin: auto;
-padding: 10px;
-height: 100px; 
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
+  <head> 
+    <base target="_top">
+    <style>
+
+      
+    /********************************************** 
+    Define .center class
+    It moves all components to the center 
+    ********************************************/ 
+    .center{
+    margin: auto;
+    padding: 10px;
+    height: 100px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    clear:both;
+    }
+    /*************************************************
+      Define .pointsBox class 
+    ************************************************/
+    .pointsBox{
+      margin: auto;
+      padding: 10px;
+
+      /* Set size of Box */
+      width: 200px;
+      height: 50px;
+      
+      /* Center Align */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      /* Set background color and border */
+      background-color: white;
+      border-style: ridge;
+      border-width: 3px;
+      border-color: lightgray;
+      border-radius: 10px;
+    }
+    /*************************************************
+      Define .button1 class and its selectors
+    ************************************************/
+    .button1 {
+      display: inline-block;
+      padding: 5px 9px;
+      font-size: 15px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      outline: none;
+      color: black;
+      background-color: ghostwhite;
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 6px #999;
+    }
+
+
+
+  #loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: lightpink;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  #loading-spinner {
+    order: 2;
+    width: 100px;
+    height: 100px;
+    border: 5px solid #ccc;
+    border-top-color: #333;
+    border-radius: 50%;
+    animation: spin 1s ease-in-out infinite;
+  }
+
+
+  #loading-text {
+    font-style: oblique
+    font-family: cursive;
+    margin-bottom: 20px;
+    order: 1;
+    font-size: 40px;
+    margin-top: -100px;
+  }
+  @keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
-/*************************************************
-  Define .pointsBox class 
-************************************************/
-.pointsBox{
-  margin: auto;
-  padding: 10px;
+    .button1:hover {background-color: gainsboro}
 
-/* Set size of Box */
-  width: 200px;
-  height: 50px;
-  
-  /* Center Align */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    .button1:active {
+      background-color: gainsboro;
+      box-shadow: 0 2px #666;
+      transform: translateY(4px);
+    }
+    /*************************************************
+      Define dropdown classes and their selectors
+    ************************************************/
+    .dropbutton {
+      background-color: ghostwhite;
+      color: black;
+      padding: 4px;
+      font-size: 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-  /* Set background color and border */
-  background-color: white;
-  border: 3px black;
-}
- </style>
-</head> 
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
 
- <!-- Body Begins now, we can use the classes we defined above -->
-<body>
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
 
-<!-- Declare these variables in a global scope so that is accessible throughout the script -->
-<script>
-var points = 0;
-var username ="Dr. Dreamy";
-var rewardText ="";
-var previousColor = "";
-var numWords;
-var numParagraphs = 0;
-// Init num words
-function initWordCount(initialWordCount){
-  numWords  = initialWordCount;
-}
-google.script.run.withSuccessHandler(initWordCount).howManyWords();
+    .dropdown-content a {
+      color: black;
+      padding: 6px 8px;
+      text-decoration: none;
+      display: block;
+    }
 
-// Init num paragraphs
-function initParagraphCount(initialParagraphCount){
-  numParagraphs = initialParagraphCount;
-}
-google.script.run.withSuccessHandler(initParagraphCount).howManyParagraphs();
+    .dropdown-content a:hover {background-color: #f1f1f1;}
+    .dropdown:hover .dropdown-content {display: block;}
+    .dropdown:hover .dropbutton {background-color: gainsboro;}
+    
+    </style>
+  </head> 
 
-// init aquariumHtml
-function initAquariumHtml(html){
-  aquariumHtml = html;
-}
-google.script.run.withSuccessHandler(initAquariumHtml).getAquariumHtml();
-</script>
+  <!-- Body Begins now, we can use the classes we defined above -->
+  <body>
 
-<!---- Display Username ---->
-<div class= "center">
-<h2 id="username"></h2>
-</div>
-
-<!------ Display Points ----->
-<div class="pointsBox">
-<h2 id="points"></h2>
-</div>
-
-<!--- Display text to communicate with the user when they get a reward of some kind. --->
-<div class="center">
-<p id="rewardText"></p>
+  <!-- Declare these variables in a global scope so that is accessible throughout the script -->
+  <script>
+    var points = "";
+    var rewardText ="";
+    var previousColor = "";
+    var numWords;
+    var username;
+    var numParagraphs = 0;
+    var aquariumWindow; /*keeping reference to close window when other game is opened*/
+    var fantasyWindow; /*keeping reference to close window when other game is opened*/
 
 
-<script>
-document.getElementById("points").innerHTML = points;
-document.getElementById("username").innerHTML = username;
-
-// Set default color of background 
-document.querySelector("body").style.backgroundColor = "lightblue";
-</script>
-
-
-<!------ Display Message to user that  
-
-
-
-<!-- Script that interfaces with Google Docs api to update points  -->
-<script>  
-
-    function retrieveHowManyWordsFromGoogleDocs(words) {
-        // Calculate if there are any new words
-        var wordIncrease = words - numWords;
-
-        var pointIncrease = wordIncrease *2; // + 2 for each new word
-
-        if(wordIncrease > 0){
-          // Add new points
-          points+=pointIncrease 
-          rewardText = " Keep going! +" + pointIncrease.toString();
-          document.getElementById('points').innerHTML = points;
-          document.getElementById("rewardText").innerHTML = rewardText;
-        }
-
-       //update numWords
-       numWords+=wordIncrease;
+    // Init num points
+    function initPoints(pointCount){
+      if (pointCount != 0 && pointCount != null){
+        points = pointCount;
+      }else{
+        points = 0;
       }
-
-
-    function retrieveHowManyParagraphsFromGoogleDocs(paragraphs){
-        // Calculate if there are any new paragraphs
-        var paraIncrease = paragraphs - numParagraphs;
-
-        var pointIncrease = paraIncrease * 50; // + 50 for each new paragraph
-        if(paraIncrease > 0){
-          // Add new points
-          points +=pointIncrease;
-          rewardText = " New Paragraphs added +" + pointIncrease.toString();
-          document.getElementById('points').innerHTML = points;
-          document.getElementById("rewardText").innerHTML = rewardText;
-        }
-
-       //update numParagraphs
-       numParagraphs += paraIncrease;
     }
+   google.script.run.withSuccessHandler(initPoints).getPoints();
+    // Init num words
+    function initWordCount(initialWordCount){
+      numWords  = initialWordCount;
+    }
+    google.script.run.withSuccessHandler(initWordCount).howManyWords();
+
+    // Init num paragraphs
+    function initParagraphCount(initialParagraphCount){
+      numParagraphs = initialParagraphCount;
+    }
+    google.script.run.withSuccessHandler(initParagraphCount).howManyParagraphs();
+
+    // init aquariumHtml
+    function initAquariumHtml(html){
+      aquariumHtml = html;
+    }
+    google.script.run.withSuccessHandler(initAquariumHtml).getAquariumHtml();
+
+    // init fantasyHtml
+    function initFantasyHtml(html){
+      fantasyHtml = html;
+    }
+    google.script.run.withSuccessHandler(initFantasyHtml).getFantasyHtml();
+  </script>
+
+
+  
+
+  <!---- Quick Link Shortcuts ---->
+  <div class="dropdown" style="float:right;">
+    <button class="dropbutton">Quick<br>Links</button>
+    <div id = "sitesList" class="dropdown-content">
+      <a href="https://www.google.com" target="_blank">Google</a>   <!--Examples-->
+      <a href="https://www.youtube.com"target="_blank">Youtube</a>
+      <a href="https://www.twitch.tv" target="_blank">Twitch</a>
+      <a onClick="SitePrompt();" style="color:gray; cursor:pointer;">Add New Site</a>
+      <a onClick="DeleteRecent();" style="color:red; cursor:pointer;">Delete Most Recent</a>
+    </div>
+  </div>
+
+  <div id="loading-screen">
+    <div id="loading-text">Loading...</div>
+    <div id="loading-spinner"></div>
+
+    
+  </div>
+
+  <!---- Display Username ---->
+  <div class= "center">
+    <h2 id="username"></h2>
+  </div>
+  
+
+  <!------ Display Points ----->
+  <div class="pointsBox">
+    <h2 id="points"></h2>
+  </div>
+
+  <!--- Display text to communicate with the user when they get a reward of some kind. --->
+  <div class="center">
+  <p id="rewardText"></p>
+
+
+    <!-- Mini Games ---> 
+      <details>
+        <summary>Mini Games </summary>
+        <!-- Give component description to user -->
+        <button class="button1" id="aquariumButton">Aquarium</button>
+        <button class="button1" id="fantasyButton">Fantasy</button>
+      </details>
  
-    /* Functions that call google.script.run so that they can be set to
-     be ran at a certain interval */ 
-     function checkForWordIncrease(){
-      google.script.run.withSuccessHandler(retrieveHowManyWordsFromGoogleDocs).howManyWords();
-    }      
-     function checkForParagraphIncrease(){
-      google.script.run.withSuccessHandler(retrieveHowManyParagraphsFromGoogleDocs).howManyParagraphs();
-    }      
+  <!--- Productivity Analyitics --->
+   <details>
+    <summary> Productivity Analyitics </summary>
+    <!-- Give component description to user -->
+    <button class="button1" id="workVsTimeGraph"> Work Versus Time</button>
+ </details>
 
-    /* Set an interval so that we are regularly retrieving 
-     a word count from google docs
-     1000 miliseconds = 1 second. */
-    setInterval(checkForWordIncrease,2000);
-
-    /* Set another interval, but make sure that it is different than 
-     the other interval so that these calls are not competing with eachother. */
-    setInterval(checkForParagraphIncrease, 5500);
-
-    // Increase points and reward user for customizing their invironment
-    function customizationBonus(){
-      points+=1;
-      rewardText = "You updated your environment! + 1 ";
-      document.getElementById("points").innerHTML = points;
-      document.getElementById("rewardText").innerHTML = rewardText;
-    }
-</script>
-
-<!-- Customize Options -->  
+    <!-- Customize Options -->  
       <details>
         <summary>Customize Options</summary>
         <!-- Give component description to user -->
         <summary>Select a background color:</summary>
         <input type="color" id="color-picker" name="color-picker">
-         <!-- Assign button function -->
-         <button id="apply-color-button">Apply Color</button>
-      </details>
-
- <!-- Mini Games ---> 
-       <details>
-        <summary>Mini Games </summary>
-        <!-- Give component description to user -->
-        <button id="aquariumButton">Aquarium</button>
+        <!-- Assign button function -->
+        <button class="button1" id="apply-color-button">Apply Color</button>
       </details>
 
 
-    </div>
 
- <!-- Assign functions to buttons  -->
+  </div>
+
+  <script>
+    /* *****************************************************************************************
+    * Init & display username & points
+    ******************************************************************************************/
+      function initUsername(usernameData){
+       document.getElementById("username").innerHTML = usernameData;
+      }
+      google.script.run.withSuccessHandler(initUsername).getUser();
+
+      document.getElementById("points").innerHTML = points;
+      document.getElementById("username").innerHTML = username;
+
+      // Set default color of background 
+      document.querySelector("body").style.backgroundColor = "lightpink";
+  </script>
+
+
+    <!-- Script that interfaces with Google Docs api to update points  -->
+    <script>  
+
+      function retrieveHowManyWordsFromGoogleDocs(words) {
+          // Calculate if there are any new words
+          var wordIncrease = words - numWords;
+
+          var pointIncrease = wordIncrease *2; // + 2 for each new word
+
+          if(wordIncrease > 0){
+            // Add new points
+            points+=pointIncrease 
+            rewardText = " Keep going! +" + pointIncrease.toString();
+            document.getElementById('points').innerHTML = points;
+            document.getElementById("rewardText").innerHTML = rewardText;
+          }
+
+        //update numWords
+        numWords+=wordIncrease;
+        }
+
+      function retrieveHowManyParagraphsFromGoogleDocs(paragraphs){
+          // Calculate if there are any new paragraphs
+          var paraIncrease = paragraphs - numParagraphs;
+
+          var pointIncrease = paraIncrease * 50; // + 50 for each new paragraph
+          if(paraIncrease > 0){
+            // Add new points
+            points +=pointIncrease;
+            rewardText = " New Paragraphs added +" + pointIncrease.toString();
+            document.getElementById('points').innerHTML = points;
+            document.getElementById("rewardText").innerHTML = rewardText;
+          }
+        //update numParagraphs
+        numParagraphs += paraIncrease;
+      }
+
+      /* Functions that call google.script.run so that they can be set to
+      be ran at a certain interval */ 
+      function checkForWordIncrease(){
+        google.script.run.withSuccessHandler(retrieveHowManyWordsFromGoogleDocs).howManyWords();
+      }      
+
+      function checkForParagraphIncrease(){
+        google.script.run.withSuccessHandler(retrieveHowManyParagraphsFromGoogleDocs).howManyParagraphs();
+      }      
+
+
+      function visuallyUpdatePoints(){
+          document.getElementById('points').innerHTML = points;
+      }
+
+
+      function updatePoints(){
+        google.script.run.withSuccessHandler(visuallyUpdatePoints).processPoints(points)
+      }
+
+      /* Set an interval so that we are regularly retrieving 
+      a word count from google docs
+      1000 miliseconds = 1 second. */
+      setInterval(checkForWordIncrease,2000);
+
+      /* Set another interval, but make sure that it is different than 
+      the other interval so that these calls are not competing with eachother. */
+      setInterval(checkForParagraphIncrease, 5500);
+
+      /* Set an interval for caching and updating point display */
+      setInterval(updatePoints, 5500);
+
+
+      // Increase points and reward user for customizing their invironment
+      function customizationBonus(){
+        points+=1;
+        rewardText = "You updated your environment! + 1 ";
+        document.getElementById("points").innerHTML = points;
+        document.getElementById("rewardText").innerHTML = rewardText;
+      }
+    </script>
+
+
+  <!-- Assign functions to buttons  -->
     <script>
       /* Background color changing button functionality */ 
       document.getElementById("apply-color-button").addEventListener("click", function() {
@@ -200,29 +379,155 @@ document.querySelector("body").style.backgroundColor = "lightblue";
         // Set the background color
         if (colorInput.value != "" &&  (colorInput.value != previousColor)) {
           body.style.backgroundColor = colorInput.value;
+          
+          //Invert text color 
+          var textColor = invertColor(colorInput.value); // invert the text color based on the background
+          body.style.color = textColor; // set the text color of the div
+
+          document.getElementById("points").style.color = "black"; //always leave points black
+
+
           // Call customization Bonus
           customizationBonus();
-         
+        
         } 
         previousColor = colorInput.value;
       });
 
-
-    
-   
-
-    /* Aquarium button functionality  */
-    document.getElementById("aquariumButton").addEventListener("click", function() {
-         aquariumWindow = window.open("", " Aquarium ", "location=1,status=1,scrollbars=1,width=800,height=800");
-         // write html data to window 
-         aquariumWindow.document.write(aquariumHtml);
-        }); 
-    
+      /* Aquarium button functionality  */
+      document.getElementById("aquariumButton").addEventListener("click", function() {
+          aquariumWindow = window.open("", " Aquarium ", "location=1,status=1,scrollbars=1,width=800,height=800");
+          // Close other game
+          if (fantasyWindow)
+            fantasyWindow.close(); 
+          // Write html data to window 
+          aquariumWindow.document.write(aquariumHtml);
+       
+          });
+      
+      /* Fantasy button functionality  */
+      document.getElementById("fantasyButton").addEventListener("click", function() {
+          fantasyWindow = window.open("", " Fantasy ", "location=1,status=1,scrollbars=1,width=800,height=800");
+          // Close other game
+          if(aquariumWindow)
+            aquariumWindow.close(); 
+          // Write html data to window 
+          fantasyWindow.document.body.innerHTML = "";
+          fantasyWindow.document.write(fantasyHtml);
+          }); 
     </script>
+
+
+  <!-- Functions that allow user to add, remove and use Quick Links -->
+  <script>
+    // Prompt user for website info and send it to AddSite()
+    function SitePrompt() {
+      let siteName = prompt("Enter website name:", "Google");
+      let url = prompt("Enter website URL:", "https://www.google.com");
+      if (siteName != null && siteName != "" && url != null && url != "") {
+        if(!url.includes("//")) {
+          url = "http://" + url;
+        }
+        try {
+          new URL(url);
+        } catch (err) {
+          window.alert("Invalid URL");
+          return false;
+        }
+        AddSite(siteName, url);
+      }
+    }
+
+    // Add new website link to the sites list
+    function AddSite(siteName, url) {
+      // Create a new anchor element
+      var newSite = document.createElement("a");
+      newSite.href = url;
+      newSite.target = "_blank";
+      newSite.textContent = siteName;
+      
+      // Find the element to append the new site to
+      var sitesList = document.getElementById("sitesList");
+      
+      // Append the new Site to the div element
+      //sitesList.appendChild(newSite); //at bottom
+      sitesList.insertBefore(newSite, sitesList.firstChild); //at top
+    }
+
+    // Delete the most recent (top) element from site list
+    function DeleteRecent() {
+      let sitesList = document.getElementById("sitesList");
+      let siteCount = sitesList.childElementCount;
+      if(siteCount > 2) {
+        sitesList.removeChild(sitesList.firstElementChild);
+      }
+    }
+
+
+/*
+  Listener function for the screen loader 
+  loops for a set amount of time and wont stop looping until the user provides a username. 
+*/
+
+
+
+
+window.addEventListener('load', function() {
+  var loadingScreen = document.getElementById('loading-screen');
+  var loadingText = document.getElementById('loading-text');
+  var messages = ["Brewing Coffee...", "Retieving User Data...", "Thank you for waiting!", " \"Being nice to others is generally a good idea\" -Mom, circa 1998" ];
+  var messageIndex = 0;
+  var counter = 0;
+
+  // set maxCount to 0 if you dont want the load screen to run very long
+  var maxCount = 15; // Set the maximum number of times the interval should be called
+
+  var loadingInterval = setInterval(function() {
+    if (!username) {
+      loadingText.innerHTML = messages[messageIndex];
+      messageIndex = (messageIndex + 1) % messages.length;
+    }
+    counter++; // Increment the counter
+    if (counter >= maxCount) { // Check if the counter has reached the maximum count
+      loadingScreen.style.display = 'none'; // Hide the loading screen
+      clearInterval(loadingInterval); // Clear the interval
+    }
+    
+ // This tells you how frequently the listener runs
+  }, 900);
+});
+
+/*******************************
+ * @param message: string message to display to the widget  
+ *
+ * */
+function updatePointsAfterGamePurchase(message){
+  // update display on widget
+  document.getElementById("points").innerHTML = points;
+  // change reward text
+  document.getElementById("rewardText").innerHTML = message;
+
+}
+
+
+function invertColor(hex) {
+  if (hex.indexOf('#') === 0) {
+    hex = hex.slice(1);
+  }
+  // convert the hex color to an rgb color
+  var r = parseInt(hex.substr(0, 2), 16);
+  var g = parseInt(hex.substr(2, 2), 16);
+  var b = parseInt(hex.substr(4, 2), 16);
+
+
+  // calculate the relative luminance of the color
+  var luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b)  /255
   
+  // set the text color to white or black based on the luminance
+  return luminance > .69? '#000000' : '#FFFFFF';
+}
 
- </body> <!-- End of Body -->
+  </script>
 
+  </body> <!-- End of Body -->
 </html>
-
-
