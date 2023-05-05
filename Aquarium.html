@@ -2,19 +2,127 @@
 <html>
   <head>
     <base target="_top">
+    <style>
+
+      /* Importing font (can change to a different one)*/
+      @import url('https://fonts.cdnfonts.com/css/ds-marker-felt');
+
+      /*************************************************
+        Define .button1 class and its selectors
+      ************************************************/
+      .button1 {
+        display: inline-block;
+        padding: 15px 25px;
+        font-size: 24px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #7acfcf;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #999;
+      }
+      .button1:hover {background-color: #379191}
+      .button1:active {
+        background-color: #379191;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+      }
+      /*************************************************
+        Define .title class
+      ************************************************/
+      .title {
+        color: white;
+        font-family: 'DS Marker Felt', sans-serif;
+        font-size: 40px;
+      }
+    </style>
   </head>
+
   <body>
-    <p> Hello! <p>
-  </body>
+
+    <script>
+    // retrieve point data 
+    var points = window.opener.points; 
+    </script>
+
+    <h1 class = "title"> Aquarium Title </h1>
+<h2 id="points"></h2>
+      <canvas id="canvas" width="800" height="600"></canvas>
+      
+        <!-- Purchase Buttons ---> 
+        <button class = "button1" id="spendFiftyPoints">50 Pts</button>
+        <button class = "button1" id="spendHundredPoints">100 Pts</button>
+
+
+
+
 
   <script>
+
+
+
+/**************************************************************************
+ *  Game region 
+ * ************************************************************************/
+
+  // Create the canvas
+  var canvas = document.getElementById("canvas");
+  var ctx = canvas.getContext("2d");
+
+    var img = new Image();
+		img.onload = function() {
+		  ctx.drawImage(img, 50, 0, 700, 400);
+		}
+		img.src = "https://drive.google.com/uc?id=1BnOg1MAp6xUSbdNYHhpCN59pJwBxDRUI";
+  
+
+// Draw dynamic integer value
+      ctx.font = "30px Arial";
+      setInterval(function() {
+        // update point value from Peer Revue
+        points = window.opener.points; 
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 50, 0, 700, 400); //redraw image
+        ctx.fillText("Points: " + points, canvas.width/2, 500); // draw updated value
+      }, 1000); // update the value every 1000 milliseconds (1 second)
+
+
+  </script>
+
+
+
+
+  </body>
+  <script>
+/*******************************************************************
+ *  Purchase Button & Background region
+ * *****************************************************************/
     document.querySelector("body").style.backgroundColor = "darkblue";
-  
-  
-  
-  
-  
-  
-  
+
+    /* Spend 50 Points button functionality  */
+    document.getElementById("spendFiftyPoints").addEventListener("click", function() {
+      if(points >= 50){
+          // update points in game window
+            points-=50;
+          //update points in peer revue widget
+            window.opener.points = points;
+            window.opener.updatePointsAfterGamePurchase(" -50 Enjoy your fish! ");
+      }
+
+    }); 
+    /* Spend 100 Points button functionality  */
+    document.getElementById("spendHundredPoints").addEventListener("click", function() {
+        if(points >= 100){
+          // update points in game window
+            points-=100;
+            //update points in peer revue widget
+            window.opener.points = points;
+            window.opener.updatePointsAfterGamePurchase(" -100 Enjoy your fish! ");
+      }
+    }); 
+        
   </script>
 </html>
