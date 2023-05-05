@@ -4,6 +4,7 @@
  *  This file is responsible for handling "server-side" functions that interface with the google doc and other google api 
  */
 
+
 /**
  * @OnlyCurrentDoc
  *
@@ -24,10 +25,49 @@
  *     running in, inspect e.authMode.
  */
 function onOpen(e) {
-  DocumentApp.getUi().createAddonMenu()
+  var ui = DocumentApp.getUi();
+  // Init Peer Revue Sidebar widget
+  ui.createAddonMenu()
       .addItem('Start', 'showSidebar')
-      .addToUi();
+      .addToUi();  
 }
+
+function showPrompt() {
+  var ui = DocumentApp.getUi(); // Same variations.
+  var result = ui.prompt(
+      'Let\'s get to know each other!',
+      'Please enter a username:',
+      ui.ButtonSet.OK_CANCEL);
+
+  // Process the user's response.
+  var button = result.getSelectedButton();
+  var text = result.getResponseText();
+  if (button == ui.Button.OK) {
+    // User clicked "OK".
+    ui.alert('Your name is ' + text + '.');
+  } else if (button == ui.Button.CANCEL) {
+    // User clicked "Cancel".
+    ui.alert('I didn\'t get your name. Peer Revue cannot run without this data. Try again.');
+    throw new Error("No Username Provided. Exiting Program.");
+
+  } else if (button == ui.Button.CLOSE ) {
+    // User clicked X in the title bar.
+    if(!text){
+      ui.alert('I didn\'t get your name. Peer Revue cannot run without this data. Try again.');
+      throw new Error("An error occurred. Exiting script.");
+    }
+  }
+
+  // retrieve user cache
+  var cache = CacheService.getUserCache();
+  
+  // add username to user cache
+  cache.put("username", text);
+
+  return text;
+}
+
+
 
 /**
  * Runs when the add-on is installed.
@@ -53,6 +93,9 @@ function showSidebar() {
   const ui = HtmlService.createHtmlOutputFromFile('PeerRevue')
       .setTitle('Peer Revue');
   DocumentApp.getUi().showSidebar(ui);
+
+
+ 
 }
 
 
@@ -62,6 +105,12 @@ function showSidebar() {
  */
 function getAquariumHtml() {
   var html = HtmlService.createTemplateFromFile('Aquarium.html').getRawContent();
+  Logger.log(html)
+  return html;
+}
+
+function getFantasyHtml() {
+  var html = HtmlService.createTemplateFromFile('Fantasy.html').getRawContent();
   Logger.log(html)
   return html;
 }
@@ -78,7 +127,6 @@ function howManyWords(){
   var text = DocumentApp.getActiveDocument().getBody().getText();
   var words = text.replace(/\s+/g, space).split(space);
   return words.length;
-  
 }
 
 /************************
@@ -86,22 +134,49 @@ function howManyWords(){
  * @return how many paragraphs 
  */
 function howManyParagraphs(){
-  // Lets try counting the occurences of tabs instead. 
-  var find = '\t';
+  // Counts the occurences of tabs instead. 
+  var find = /\t+/; //regex so that the user cannot spam tabs! 
   var text = DocumentApp.getActiveDocument().getBody().getText();
+  Logger.log(text.split(find).length - 1);
   return (text.split(find)).length - 1;
 
-  // This is google docs definition of paragraphs - a bit too broad for us
-  //Logger.log(DocumentApp.getActiveDocument().getBody().getParagraphs().length)
-  //return DocumentApp.getActiveDocument().getBody().getParagraphs().length;
+  //This is google docs definition of paragraphs - a bit too broad for us
+  /* Logger.log(DocumentApp.getActiveDocument().getBody().getParagraphs().length)
+  return DocumentApp.getActiveDocument().getBody().getParagraphs().length; */
 
 }
 
+/************************************************
+ *  Returns username that is stored in the cache
+ ************************************************/
+function getUser(){
+  var cache = CacheService.getUserCache();
 
+   if( cache.get("username") == null){ //you can change this condition to if-true when testing
+    showPrompt();
+  }
+  var username = cache.get("username");
+   Logger.log(username);
+  // returns cache data that is associated with the key "username"
+  return username;
 
+}
+/****************************************************************
+ * Uploads image based on the Url 
+ ****************************************************************/
+function uploadImageFromUrl(imageUrl) {
+  var imageBlob = UrlFetchApp.fetch(imageUrl).getBlob();
+  // Save the image blob to Google Drive or Google Cloud Storage
+  return "Image uploaded successfully";
+}
 
+function processPoints(points) {
+	Logger.log("Received data: " + points);
+  CacheService.getUserCache().put("points", points);
+}
 
-
-
-
-
+function getPoints(){
+  var points = parseInt(CacheService.getUserCache().get("points"));
+  Logger.log("Points = " +  points);
+  return points;
+}
