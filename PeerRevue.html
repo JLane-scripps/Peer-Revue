@@ -1,533 +1,403 @@
-<!DOCTYPE html>
- <!-- Jordan A  -->
-<!--This is the HTML file that defines our components and their functions !  -->
-<html>
-  <head> 
-    <base target="_top">
-    <style>
-
-      
-    /********************************************** 
-    Define .center class
-    It moves all components to the center 
-    ********************************************/ 
-    .center{
-    margin: auto;
-    padding: 10px;
-    height: 100px; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    clear:both;
-    }
-    /*************************************************
-      Define .pointsBox class 
-    ************************************************/
-    .pointsBox{
-      margin: auto;
-      padding: 10px;
-
-      /* Set size of Box */
-      width: 200px;
-      height: 50px;
-      
-      /* Center Align */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      /* Set background color and border */
-      background-color: white;
-      border-style: ridge;
-      border-width: 3px;
-      border-color: lightgray;
-      border-radius: 10px;
-    }
-    /*************************************************
-      Define .button1 class and its selectors
-    ************************************************/
-    .button1 {
-      display: inline-block;
-      padding: 5px 9px;
-      font-size: 15px;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
-      outline: none;
-      color: black;
-      background-color: ghostwhite;
-      border: none;
-      border-radius: 15px;
-      box-shadow: 0 6px #999;
-    }
+/*********
+ *  Jordan 
+ *  This is the .gs file so your handy dandy google script will open 
+ *  This file is responsible for handling "server-side" functions that interface with the google doc and other google api 
+ */
 
 
-
-  #loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: lightpink;
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-
-  #loading-spinner {
-    order: 2;
-    width: 100px;
-    height: 100px;
-    border: 5px solid #ccc;
-    border-top-color: #333;
-    border-radius: 50%;
-    animation: spin 1s ease-in-out infinite;
-  }
+/***************
+ * Firebase stuff
+ */
 
 
-  #loading-text {
-    font-style: oblique
-    font-family: cursive;
-    margin-bottom: 20px;
-    order: 1;
-    font-size: 40px;
-    margin-top: -100px;
-  }
-  @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-    .button1:hover {background-color: gainsboro}
+/****************************
+ * Writes data to firebase
+ * @param id : user id generated
+ * @param username: username the user chose when registering
+ * @param points : how many points the user has
+ * @param aquariumArray: array represemnting how many fish the user had in the aquarium
+ * @param fantasyArray: array representing the game data for the fantasy game
+ */
+function writeToFirebase(id, username, points, aquariumArray, fantasyArray){
+// we want to\ use better and more secure way of accessing firebase, this is just
+// because we are in early stages of developement.
+  var firebaseUrl = /**REDACTED FOR SECURITY **/
+  var firebaseSecret = /**REDACTED FOR SECURITY **/
+  var database = FirebaseApp.getDatabaseByUrl(firebaseUrl, firebaseSecret);
 
-    .button1:active {
-      background-color: gainsboro;
-      box-shadow: 0 2px #666;
-      transform: translateY(4px);
-    }
-    /*************************************************
-      Define dropdown classes and their selectors
-    ************************************************/
-    .dropbutton {
-      background-color: ghostwhite;
-      color: black;
-      padding: 4px;
-      font-size: 12px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      right: 0;
-      background-color: #f9f9f9;
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
-    }
-
-    .dropdown-content a {
-      color: black;
-      padding: 6px 8px;
-      text-decoration: none;
-      display: block;
-    }
-
-    .dropdown-content a:hover {background-color: #f1f1f1;}
-    .dropdown:hover .dropdown-content {display: block;}
-    .dropdown:hover .dropbutton {background-color: gainsboro;}
-    
-    </style>
-  </head> 
-
-  <!-- Body Begins now, we can use the classes we defined above -->
-  <body>
-
-  <!-- Declare these variables in a global scope so that is accessible throughout the script -->
-  <script>
-    var points = "";
-    var rewardText ="";
-    var previousColor = "";
-    var numWords;
-    var username;
-    var numParagraphs = 0;
-    var aquariumWindow; /*keeping reference to close window when other game is opened*/
-    var fantasyWindow; /*keeping reference to close window when other game is opened*/
-
-
-    // Init num points
-    function initPoints(pointCount){
-      if (pointCount != 0 && pointCount != null){
-        points = pointCount;
-      }else{
-        points = 0;
-      }
-    }
-   google.script.run.withSuccessHandler(initPoints).getPoints();
-    // Init num words
-    function initWordCount(initialWordCount){
-      numWords  = initialWordCount;
-    }
-    google.script.run.withSuccessHandler(initWordCount).howManyWords();
-
-    // Init num paragraphs
-    function initParagraphCount(initialParagraphCount){
-      numParagraphs = initialParagraphCount;
-    }
-    google.script.run.withSuccessHandler(initParagraphCount).howManyParagraphs();
-
-    // init aquariumHtml
-    function initAquariumHtml(html){
-      aquariumHtml = html;
-    }
-    google.script.run.withSuccessHandler(initAquariumHtml).getAquariumHtml();
-
-    // init fantasyHtml
-    function initFantasyHtml(html){
-      fantasyHtml = html;
-    }
-    google.script.run.withSuccessHandler(initFantasyHtml).getFantasyHtml();
-  </script>
-
-
-  
-
-  <!---- Quick Link Shortcuts ---->
-  <div class="dropdown" style="float:right;">
-    <button class="dropbutton">Quick<br>Links</button>
-    <div id = "sitesList" class="dropdown-content">
-      <a href="https://www.google.com" target="_blank">Google</a>   <!--Examples-->
-      <a href="https://www.youtube.com"target="_blank">Youtube</a>
-      <a href="https://www.twitch.tv" target="_blank">Twitch</a>
-      <a onClick="SitePrompt();" style="color:gray; cursor:pointer;">Add New Site</a>
-      <a onClick="DeleteRecent();" style="color:red; cursor:pointer;">Delete Most Recent</a>
-    </div>
-  </div>
-
-  <div id="loading-screen">
-    <div id="loading-text">Loading...</div>
-    <div id="loading-spinner"></div>
-
-    
-  </div>
-
-  <!---- Display Username ---->
-  <div class= "center">
-    <h2 id="username"></h2>
-  </div>
-  
-
-  <!------ Display Points ----->
-  <div class="pointsBox">
-    <h2 id="points"></h2>
-  </div>
-
-  <!--- Display text to communicate with the user when they get a reward of some kind. --->
-  <div class="center">
-  <p id="rewardText"></p>
-
-
-    <!-- Mini Games ---> 
-      <details>
-        <summary>Mini Games </summary>
-        <!-- Give component description to user -->
-        <button class="button1" id="aquariumButton">Aquarium</button>
-        <button class="button1" id="fantasyButton">Fantasy</button>
-      </details>
+  var email = Session.getActiveUser().getEmail()
+  Logger.log("email = " + email);
  
-  <!--- Productivity Analyitics --->
-   <details>
-    <summary> Productivity Analyitics </summary>
-    <!-- Give component description to user -->
-    <button class="button1" id="workVsTimeGraph"> Work Versus Time</button>
- </details>
-
-    <!-- Customize Options -->  
-      <details>
-        <summary>Customize Options</summary>
-        <!-- Give component description to user -->
-        <summary>Select a background color:</summary>
-        <input type="color" id="color-picker" name="color-picker">
-        <!-- Assign button function -->
-        <button class="button1" id="apply-color-button">Apply Color</button>
-      </details>
+  // write to usernamedirectory 
+  database.setData("users/" + id, {
+    "email" : email,
+    "username": username,
+    "points": points,
+    "aquarium": aquariumArray,
+    "fantasy": fantasyArray
+  });
+}
 
 
-
-  </div>
-
-  <script>
-    /* *****************************************************************************************
-    * Init & display username & points
-    ******************************************************************************************/
-      function initUsername(usernameData){
-       document.getElementById("username").innerHTML = usernameData;
-      }
-      google.script.run.withSuccessHandler(initUsername).getUser();
-
-      document.getElementById("points").innerHTML = points;
-      document.getElementById("username").innerHTML = username;
-
-      // Set default color of background 
-      document.querySelector("body").style.backgroundColor = "lightpink";
-  </script>
+// converts an array to a string
+function arrayToString(array){
+  var strArr = "";
+  for( let i = 0 ; i < array.length; i++)
+    strArr+= array[i].toString() + ',';
 
 
-    <!-- Script that interfaces with Google Docs api to update points  -->
-    <script>  
-
-      function retrieveHowManyWordsFromGoogleDocs(words) {
-          // Calculate if there are any new words
-          var wordIncrease = words - numWords;
-
-          var pointIncrease = wordIncrease *2; // + 2 for each new word
-
-          if(wordIncrease > 0){
-            // Add new points
-            points+=pointIncrease 
-            rewardText = " Keep going! +" + pointIncrease.toString();
-            document.getElementById('points').innerHTML = points;
-            document.getElementById("rewardText").innerHTML = rewardText;
-          }
-
-        //update numWords
-        numWords+=wordIncrease;
-        }
-
-      function retrieveHowManyParagraphsFromGoogleDocs(paragraphs){
-          // Calculate if there are any new paragraphs
-          var paraIncrease = paragraphs - numParagraphs;
-
-          var pointIncrease = paraIncrease * 50; // + 50 for each new paragraph
-          if(paraIncrease > 0){
-            // Add new points
-            points +=pointIncrease;
-            rewardText = " New Paragraphs added +" + pointIncrease.toString();
-            document.getElementById('points').innerHTML = points;
-            document.getElementById("rewardText").innerHTML = rewardText;
-          }
-        //update numParagraphs
-        numParagraphs += paraIncrease;
-      }
-
-      /* Functions that call google.script.run so that they can be set to
-      be ran at a certain interval */ 
-      function checkForWordIncrease(){
-        google.script.run.withSuccessHandler(retrieveHowManyWordsFromGoogleDocs).howManyWords();
-      }      
-
-      function checkForParagraphIncrease(){
-        google.script.run.withSuccessHandler(retrieveHowManyParagraphsFromGoogleDocs).howManyParagraphs();
-      }      
-
-
-      function visuallyUpdatePoints(){
-          document.getElementById('points').innerHTML = points;
-      }
-
-
-      function updatePoints(){
-        google.script.run.withSuccessHandler(visuallyUpdatePoints).processPoints(points)
-      }
-
-      /* Set an interval so that we are regularly retrieving 
-      a word count from google docs
-      1000 miliseconds = 1 second. */
-      setInterval(checkForWordIncrease,2000);
-
-      /* Set another interval, but make sure that it is different than 
-      the other interval so that these calls are not competing with eachother. */
-      setInterval(checkForParagraphIncrease, 5500);
-
-      /* Set an interval for caching and updating point display */
-      setInterval(updatePoints, 5500);
-
-
-      // Increase points and reward user for customizing their invironment
-      function customizationBonus(){
-        points+=1;
-        rewardText = "You updated your environment! + 1 ";
-        document.getElementById("points").innerHTML = points;
-        document.getElementById("rewardText").innerHTML = rewardText;
-      }
-    </script>
-
-
-  <!-- Assign functions to buttons  -->
-    <script>
-      /* Background color changing button functionality */ 
-      document.getElementById("apply-color-button").addEventListener("click", function() {
-        // Get the input elements
-        var colorInput = document.getElementById("color-picker");
-        var imageInput = document.getElementById("image-picker");
-
-        // Get the body element
-        var body = document.querySelector("body");
-
-        // Set the background color
-        if (colorInput.value != "" &&  (colorInput.value != previousColor)) {
-          body.style.backgroundColor = colorInput.value;
-          
-          //Invert text color 
-          var textColor = invertColor(colorInput.value); // invert the text color based on the background
-          body.style.color = textColor; // set the text color of the div
-
-          document.getElementById("points").style.color = "black"; //always leave points black
-
-
-          // Call customization Bonus
-          customizationBonus();
-        
-        } 
-        previousColor = colorInput.value;
-      });
-
-      /* Aquarium button functionality  */
-      document.getElementById("aquariumButton").addEventListener("click", function() {
-          aquariumWindow = window.open("", " Aquarium ", "location=1,status=1,scrollbars=1,width=800,height=800");
-          // Close other game
-          if (fantasyWindow)
-            fantasyWindow.close(); 
-          // Write html data to window 
-          aquariumWindow.document.write(aquariumHtml);
-       
-          });
-      
-      /* Fantasy button functionality  */
-      document.getElementById("fantasyButton").addEventListener("click", function() {
-          fantasyWindow = window.open("", " Fantasy ", "location=1,status=1,scrollbars=1,width=800,height=800");
-          // Close other game
-          if(aquariumWindow)
-            aquariumWindow.close(); 
-          // Write html data to window 
-          fantasyWindow.document.body.innerHTML = "";
-          fantasyWindow.document.write(fantasyHtml);
-          }); 
-    </script>
-
-
-  <!-- Functions that allow user to add, remove and use Quick Links -->
-  <script>
-    // Prompt user for website info and send it to AddSite()
-    function SitePrompt() {
-      let siteName = prompt("Enter website name:", "Google");
-      let url = prompt("Enter website URL:", "https://www.google.com");
-      if (siteName != null && siteName != "" && url != null && url != "") {
-        if(!url.includes("//")) {
-          url = "http://" + url;
-        }
-        try {
-          new URL(url);
-        } catch (err) {
-          window.alert("Invalid URL");
-          return false;
-        }
-        AddSite(siteName, url);
-      }
-    }
-
-    // Add new website link to the sites list
-    function AddSite(siteName, url) {
-      // Create a new anchor element
-      var newSite = document.createElement("a");
-      newSite.href = url;
-      newSite.target = "_blank";
-      newSite.textContent = siteName;
-      
-      // Find the element to append the new site to
-      var sitesList = document.getElementById("sitesList");
-      
-      // Append the new Site to the div element
-      //sitesList.appendChild(newSite); //at bottom
-      sitesList.insertBefore(newSite, sitesList.firstChild); //at top
-    }
-
-    // Delete the most recent (top) element from site list
-    function DeleteRecent() {
-      let sitesList = document.getElementById("sitesList");
-      let siteCount = sitesList.childElementCount;
-      if(siteCount > 2) {
-        sitesList.removeChild(sitesList.firstElementChild);
-      }
-    }
-
-
-/*
-  Listener function for the screen loader 
-  loops for a set amount of time and wont stop looping until the user provides a username. 
-*/
+  Logger.log("strArr = " + strArr);
+  return strArr;
+}
 
 
 
+//string to an int array
+function stringToArray(str){
 
-window.addEventListener('load', function() {
-  var loadingScreen = document.getElementById('loading-screen');
-  var loadingText = document.getElementById('loading-text');
-  var messages = ["Brewing Coffee...", "Retieving User Data...", "Thank you for waiting!", " \"Being nice to others is generally a good idea\" -Mom, circa 1998" ];
-  var messageIndex = 0;
-  var counter = 0;
+  // this here is just for debugging
+  //str = "32,32,44,11,32,";
 
-  // set maxCount to 0 if you dont want the load screen to run very long
-  var maxCount = 15; // Set the maximum number of times the interval should be called
+  str = str.substring(0,str.length-1)
 
-  var loadingInterval = setInterval(function() {
-    if (!username) {
-      loadingText.innerHTML = messages[messageIndex];
-      messageIndex = (messageIndex + 1) % messages.length;
-    }
-    counter++; // Increment the counter
-    if (counter >= maxCount) { // Check if the counter has reached the maximum count
-      loadingScreen.style.display = 'none'; // Hide the loading screen
-      clearInterval(loadingInterval); // Clear the interval
-    }
-    
- // This tells you how frequently the listener runs
-  }, 900);
+  var array = str.split(',').map(function(item) {
+    return parseInt(item, 10);
 });
 
-/*******************************
- * @param message: string message to display to the widget  
- *
- * */
-function updatePointsAfterGamePurchase(message){
-  // update display on widget
-  document.getElementById("points").innerHTML = points;
-  // change reward text
-  document.getElementById("rewardText").innerHTML = message;
+
+  Logger.log(array)
+
+
+return array;
+
 
 }
 
-
-function invertColor(hex) {
-  if (hex.indexOf('#') === 0) {
-    hex = hex.slice(1);
-  }
-  // convert the hex color to an rgb color
-  var r = parseInt(hex.substr(0, 2), 16);
-  var g = parseInt(hex.substr(2, 2), 16);
-  var b = parseInt(hex.substr(4, 2), 16);
-
-
-  // calculate the relative luminance of the color
-  var luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b)  /255
+function retrieveUserData(){
   
-  // set the text color to white or black based on the luminance
-  return luminance > .69? '#000000' : '#FFFFFF';
+  var user = generateID();
+
+// we want to\ use better and more secure way of accessing firebase, this is just
+// because we are in early stages of developement.
+  var firebaseUrl = /**REDACTED FOR SECURITY **/
+  var firebaseSecret = /**REDACTED FOR SECURITY **/
+  var database = FirebaseApp.getDatabaseByUrl(firebaseUrl, firebaseSecret);
+
+  // Read data from the Firebase Realtime Database
+  var data = database.getData("users/" + user);
+
+
+  Logger.log(data);
+
+  return data;
 }
 
-  </script>
 
-  </body> <!-- End of Body -->
-</html>
+
+/************************************************
+ *  Returns username that is stored in the cache (soon to be database !)
+ ************************************************/
+function getUser(){
+  var cache = CacheService.getUserCache();
+  
+
+ if( retrieveUserData() == null){ //you can change this condition to if-true when testing
+    showPrompt();
+  } 
+  var data = retrieveUserData();
+
+  var username = data.username;
+
+
+   Logger.log(username);
+  // returns cache data that is associated with the key "username"
+
+
+  return username;
+
+}
+
+
+
+function generateID(){
+  var email = Session.getActiveUser().getEmail()
+  Logger.log("email = " + email);
+  var user = email.split('@')[0];
+  Logger.log("user = " + user);
+
+  // This algorithm generates IDs that are NOT necessarily unique and needs to be improved.
+  // It was just an easy way to implement user ids in a short amount of time for the early stages
+  // of this project
+  id = "";
+  for(var i = 0; i < user.length; i++){
+    id+= (user.charCodeAt(i)).toString();
+  }
+
+  
+  Logger.log("user id = "+ id);
+  return id;
+}
+
+
+function readData() {
+// we want to\ use better and more secure way of accessing firebase, this is just
+// because we are in early stages of developement.
+  var firebaseUrl = /**REDACTED FOR SECURITY **/
+  var firebaseSecret = /**REDACTED FOR SECURITY **/
+  var database = FirebaseApp.getDatabaseByUrl(firebaseUrl, firebaseSecret);
+
+  // Read data from the Firebase Realtime Database
+  var data = database.getData("path/to/data");
+  Logger.log(data);
+}
+
+
+
+/**
+ * @OnlyCurrentDoc
+ *
+ * The above comment directs Apps Script to limit the scope of file
+ * access for this add-on. It specifies that this add-on will only
+ * attempt to read or modify the files in which the add-on is used,
+ * and not all of the user's files. The authorization request message
+ * presented to users will reflect this limited scope.
+ */
+
+/**
+ * Creates a menu entry in the Google Docs UI when the document is opened.
+ * This method is only used by the regular add-on, and is never called by
+ * the mobile add-on version.
+ *
+ * @param {object} e The event parameter for a simple onOpen trigger. To
+ *     determine which authorization mode (ScriptApp.AuthMode) the trigger is
+ *     running in, inspect e.authMode.
+ */
+function onOpen(e) {
+  var ui = DocumentApp.getUi();
+  // Init Peer Revue Sidebar widget
+  ui.createAddonMenu()
+      .addItem('Start', 'showSidebar')
+      .addToUi();  
+}
+
+function showPrompt() {
+  var ui = DocumentApp.getUi(); // Same variations.
+  var result = ui.prompt(
+      'Let\'s get to know each other!',
+      'Please enter a username:',
+      ui.ButtonSet.OK_CANCEL);
+
+  // Process the user's response.
+  var button = result.getSelectedButton();
+  var text = result.getResponseText();
+  if (button == ui.Button.OK) {
+    // User clicked "OK".
+    ui.alert('Your name is ' + text + '.');
+  } else if (button == ui.Button.CANCEL) {
+    // User clicked "Cancel".
+    ui.alert('I didn\'t get your name. Peer Revue cannot run without this data. Try again.');
+    throw new Error("No Username Provided. Exiting Program.");
+
+  } else if (button == ui.Button.CLOSE ) {
+    // User clicked X in the title bar.
+    if(!text){
+      ui.alert('I didn\'t get your name. Peer Revue cannot run without this data. Try again.');
+      throw new Error("An error occurred. Exiting script.");
+    }
+  }
+
+
+  // add user identifier and user  to firebase
+  //id, username, points, aquariumArray, fantasyArray
+  writeToFirebase(generateID() ,text ,0 ,arrayToString(getAquariumData()),arrayToString(getFantasyData()));
+  
+  return text;
+}
+
+
+
+/**
+ * Runs when the add-on is installed.
+ * This method is only used by the regular add-on, and is never called by
+ * the mobile add-on version.
+ *
+ * @param {object} e The event parameter for a simple onInstall trigger. To
+ *     determine which authorization mode (ScriptApp.AuthMode) the trigger is
+ *     running in, inspect e.authMode. (In practice, onInstall triggers always
+ *     run in AuthMode.FULL, but onOpen triggers may be AuthMode.LIMITED or
+ *     AuthMode.NONE.)
+ */
+function onInstall(e) {
+  onOpen(e);
+}
+
+/**
+ * Opens a sidebar in the document containing the add-on's user interface.
+ * This method is only used by the regular add-on, and is never called by
+ * the mobile add-on version.
+ */
+function showSidebar() {
+  const ui = HtmlService.createHtmlOutputFromFile('PeerRevue')
+      .setTitle('Peer Revue');
+  DocumentApp.getUi().showSidebar(ui);
+
+ 
+}
+
+
+/************************
+ * Gets html from another file in the project 
+ * 
+ */
+function getAquariumHtml() {
+  var html = HtmlService.createTemplateFromFile('Aquarium.html').getRawContent();
+  Logger.log(html)
+  return html;
+}
+
+function getFantasyHtml() {
+  var html = HtmlService.createTemplateFromFile('Fantasy.html').getRawContent();
+  Logger.log(html)
+  return html;
+}
+
+
+/***********************
+ * Counts words in a Google Doc 
+ * @ return how many words
+ */
+function howManyWords(){
+  var space = " ";
+  var text = DocumentApp.getActiveDocument().getBody().getText();
+  var words = text.replace(/\s+/g, space).split(space);
+  return words.length;
+}
+
+/************************
+ * Counts paragraphs in a Google Doc 
+ * @return how many paragraphs 
+ */
+function howManyParagraphs(){
+  // Counts the occurences of tabs instead. 
+  var find = /\t+/; //regex so that the user cannot spam tabs! 
+  var text = DocumentApp.getActiveDocument().getBody().getText();
+  Logger.log(text.split(find).length - 1);
+  return (text.split(find)).length - 1;
+
+  //This is google docs definition of paragraphs - a bit too broad for us
+  /* Logger.log(DocumentApp.getActiveDocument().getBody().getParagraphs().length)
+  return DocumentApp.getActiveDocument().getBody().getParagraphs().length; */
+
+}
+
+
+/********* 
+ *  getters n setters
+ * 
+*/
+
+function processPoints(points) {
+	Logger.log("Received data: " + points);
+
+  var data = retrieveUserData();
+  if(data != null){
+  data.points = points;
+  //id, username, points, aquariumArray, fantasyArray
+  writeToFirebase(generateID(), data.username, data.points, data.aquarium, data.fantasy);
+  }else{
+    Logger.log("Cant write to firebase if account data is null");
+  }
+
+}
+
+
+function setFantasyData(array){
+
+  Logger.log("Received fantasy data: " +array);
+  var strArray =arrayToString(array);
+  var data = retrieveUserData();
+  if(data != null){
+    Logger.log("retrieved array = " + strArray);
+    data.fantasy = strArray;
+    Logger.log("fantasy is now : " + data.fantasy);
+    //id, username, points, aquariumArray, fantasyArray
+    writeToFirebase(generateID(), data.username, data.points, data.aquarium, data.fantasy);
+  }else{
+    Logger.log("Cant write to firebase if account data is null");
+  }
+}
+
+function setAquariumData(array){
+  Logger.log("Received aquarium data: " +array);
+  var strArray = arrayToString(array);
+  var data = retrieveUserData();
+  if(data != null){
+    Logger.log("retrieved array = " + strArray);
+    data.aquarium = strArray;
+    Logger.log("aquarium is now : " + data.aquarium);
+    //id, username, points, aquariumArray, fantasyArray
+    writeToFirebase(generateID(), data.username, data.points, data.aquarium, data.fantasy);
+  }else{
+    Logger.log("Cant write to firebase if account data is null");
+  }
+}
+
+function getFantasyData(){
+  var fantasy = [
+      -1, 0, 0, 0, 100, //background index, potions, energy
+      1, -1, -1, 40, //knight lv, hp, mana, xp
+      1, -1, -1, 40, //mage   lv, hp, mana, xp
+      1, -1, -1, 40, //rogue  lv, hp, mana, xp
+      1, -1, -1, 40, //cleric lv, hp, mana, xp
+      -1, -1, -1, //monster level, hp, type
+      0, -1, 0 //currentPlayer, currentCharacter, gameEnded
+    ];
+
+  Logger.log("fantasy prior to retrieval =" + fantasy);
+
+  var data = retrieveUserData();
+  if(data == null){
+    Logger.log("data is null");
+  }else{
+    fantasy = stringToArray(data.fantasy);
+    Logger.log("fantasy post recieval: " + fantasy);
+
+  }
+  return fantasy;
+}
+
+function getAquariumData(){
+  var aquarium = [0,0,0,0,0];
+  Logger.log("aquarium prior to retrieval = " + aquarium);
+  var data = retrieveUserData();
+  if(data == null){
+    Logger.log("data is null");
+  }else{
+    aquarium = stringToArray(data.aquarium);
+    Logger.log("aquarium post recieval: " + aquarium);
+  }
+  return aquarium;
+
+}
+
+function getUsername(){
+  var username = "null";
+  var data = retrieveUserData();
+  if(data == null){
+    showPrompt();
+    getUsername(); // make recursive call
+  }
+  Logger.log("username = " +  username);
+  return retrieveUserData().username;
+}
+
+function getPoints(){
+  var points = 0;
+  var data = retrieveUserData();
+  if(data != null){
+    points= data.points;
+  }
+  Logger.log("points = " + points);
+  return points;
+}
+
