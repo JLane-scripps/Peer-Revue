@@ -1,5 +1,4 @@
 /*********
- *  Jordan 
  *  This is the .gs file so your handy dandy google script will open 
  *  This file is responsible for handling "server-side" functions that interface with the google doc and other google api 
  */
