@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+ <!-- Jordan A  -->
 <html>
   <head>
     <base target="_top">
@@ -222,7 +223,7 @@ class Fish{
     // Bounce off the edges of the screen
     if (this.x < 0 || this.x > canvas.width) {
       this.vx *= -1;
-    //  this.image = flipImageHorizontally(this.image);
+      this.image = flipImageHorizontally(this.image);
     }
     if (this.y < 0 || this.y > canvas.height) {
       this.vy *= -1;
@@ -273,13 +274,13 @@ var cuteFishImg = new Image();
 cuteFishImg.src = 'https://drive.google.com/uc?id=1aXy6zN4_A_alB8GfkVMQk0dlSrQrCy6L';
 fishImages.push(cuteFishImg);
 cuteFishImg.onload = function() {
-		 // ctx.cuteFishImg(cuteFishImg, 0, 0,fishDim,fishDim );
+		  ctx.cuteFishImg(cuteFishImg, 0, 0,fishDim,fishDim );
 		}
 
 var clownFishImg = new Image();
 clownFishImg.src = 'https://drive.google.com/uc?id=1ILLJhvDc12QaNu9gXNBEwNRjVtdt82Nm';
 clownFishImg.onload = function() {
-		//  ctx.drawImage(clownFishImg, 0, 0, fishDim,fishDim);
+		  ctx.drawImage(clownFishImg, 0, 0, fishDim,fishDim);
 		}
 
 fishImages.push(clownFishImg);
@@ -288,21 +289,21 @@ var pufferFishImg = new Image();
 pufferFishImg.src = 'https://drive.google.com/uc?id=1pHxAexwLr_mKxd4-mFAQAgjrn3U0L_Go';
 
 pufferFishImg.onload = function() {
-		 // ctx.drawImage(pufferFishImg, 0, 0,fishDim,fishDim);
+		  ctx.drawImage(pufferFishImg, 0, 0,fishDim,fishDim);
 		}
 fishImages.push(pufferFishImg);
 
 var blobFishImg = new Image();
 blobFishImg.src = 'https://drive.google.com/uc?id=1AvbkRXMvkhPq1LpJLSwZOOnER3nruvZ1';
 blobFishImg.onload = function(){
-  //ctx.drawImage(blobFishImg, 0, 0, fishDim,fishDim);
+  ctx.drawImage(blobFishImg, 0, 0, fishDim,fishDim);
 }
 fishImages.push(blobFishImg);
 
 var greenFishImg = new Image();
 greenFishImg.src = 'https://drive.google.com/uc?id=10CIwSgj7A-1rH1QUjY2QPxXmskK5RPJw';
 greenFishImg.onload = function(){
-  //ctx.drawImage(greenFishImg, 0, 0, fishDim,fishDim);
+  ctx.drawImage(greenFishImg, 0, 0, fishDim,fishDim);
 }
 fishImages.push(greenFishImg);
 
@@ -359,7 +360,7 @@ loadFish();
             //add to the fish boid array
             createFish(clownFishImg);
             window.opener.updatePointsAfterGamePurchase(" -50 Enjoy your fish! ");
-            fishCount[1]++;
+            fishCount[0]++;
             SyncData();
             
       }
@@ -376,7 +377,7 @@ loadFish();
             //add to the fish boid array
             createFish(greenFishImg);
             window.opener.updatePointsAfterGamePurchase(" -50 Enjoy your fish! ");
-            fishCount[4]++;
+            fishCount[1]++;
             SyncData();
       }
 
@@ -391,7 +392,7 @@ loadFish();
             //add to the fish boid array
             createFish(cuteFishImg);
             window.opener.updatePointsAfterGamePurchase(" -50 Enjoy your fish! ");
-            fishCount[0]++;
+            fishCount[2]++;
             SyncData();
       }
 
@@ -399,32 +400,32 @@ loadFish();
 
     /* pufferfish button functionality  */
     document.getElementById("pufferFishButton").addEventListener("click", function() {
-        if(points >= 50){
+        if(points >= 100){
           // update points in game window
-            points-=50;
+            points-=100;
             //update points in peer revue widget
             window.opener.points = points;
 
             // add to the fish boid array
             createFish(pufferFishImg);
-            window.opener.updatePointsAfterGamePurchase(" -50 Enjoy your fish! ");
-            fishCount[2]++;
+            window.opener.updatePointsAfterGamePurchase(" -100 Enjoy your fish! ");
+            fishCount[3]++;
             SyncData();
       }
     }); 
 
        /* blobfish button functionality  */
     document.getElementById("blobFishButton").addEventListener("click", function() {
-        if(points >= 50){
+        if(points >= 100){
           // update points in game window
-            points-=50;
+            points-=100;
             //update points in peer revue widget
             window.opener.points = points;
 
             // add to the fish boid array
             createFish(blobFishImg);
-            window.opener.updatePointsAfterGamePurchase(" -50 Enjoy your fish! ");
-            fishCount[3]++;
+            window.opener.updatePointsAfterGamePurchase(" -100 Enjoy your fish! ");
+            fishCount[4]++;
             SyncData();
       }
     }); 
