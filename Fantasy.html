@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+ <!-- Chad Etchebarren  -->
+<html>
+  <head>
+    <base target="_top">
+    <style>
+
+      /* Import fantasy font */
+      @import url('https://fonts.cdnfonts.com/css/luminari');
+
+      /*************************************************
+        Define .button1 class and its selectors
+      ************************************************/
+      .button1 {
+        display: inline-block;
+        padding: 0px 6px;
+        font-size: 24px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color:gold;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 9px #8d7d30;
+        min-width: 160px;
+      }
+
+      .button1:hover {background-color: goldenrod}
+
+      .button1:active {
+        background-color: goldenrod;
+        box-shadow: 0 5px #8d7d30;
+        transform: translateY(4px);
+      }
+
+      .button1 img {
+        position: relative;
+        image-rendering: pixelated;
+        left: 15%;
+        transform: scale(2) translateX(-50%) translateY(50%);
+      }
+      /*************************************************
+        Define .button2 class and its selectors
+      ************************************************/
+      .button2 {
+        position: relative;
+        margin-left: 12px;
+        display: inline-block;
+        top: 30px;
+        padding: 5px 10px;
+        font-size: 24px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #9e766a;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 6px #584034;
+      }
+
+      .button2:hover {background-color: goldenrod}
+
+      .button2:active {
+        background-color: goldenrod;
+        box-shadow: 0 5px #584034;
+        transform: translateY(4px);
+      }
+      /*************************************************
+        Define .button3 class and its selectors
+      ************************************************/
+      .button3 {
+        position: relative;
+        margin-left: 8px;
+        display: inline-block;
+        top: 17px;
+        padding: 5px 10px;
+        font-size: 24px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #9e766a;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 6px #584034;
+      }
+
+      .button3:hover {background-color: goldenrod}
+
+      .button3:active {
+        background-color: goldenrod;
+        box-shadow: 0 5px #584034;
+        transform: translateY(4px);
+      }
+      /*************************************************
+        Define .button4 class and its selectors
+      ************************************************/
+      .button4 {
+        left: 21px;
+        margin-top: 15px;
+        position: relative;
+        margin-left: 4px;
+        display: inline-block;
+        top: -15px;
+        padding: 5px 10px;
+        font-size: 24px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #9e766a;
+        border: none;
+        border-radius: 10px;
+        box-shadow: 0 6px #584034;
+        min-width: 94px
+      }
+
+      .button4:hover {background-color: goldenrod}
+
+      .button4:active {
+        background-color: goldenrod;
+        box-shadow: 0 5px #584034;
+        transform: translateY(4px);
+      }
+      /*************************************************
+        Define .button5 class and its selectors //back button
+      ************************************************/
+      .button5 {
+        left: 252px;
+        margin-top: 0px;
+        position: absolute;
+        margin-left: 0;
+        display: inline-block;
+        top: 1px;
+        padding: 5px 5px;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #d56d4e;
+        border: none;
+        border-radius: 7px;
+        box-shadow: 0 6px #763c1e;
+        min-width: 26px
+      }
+
+      .button5:hover {background-color: #a53919}
+
+      .button5:active {
+        background-color: #a53919;
+        box-shadow: 0 5px #584034;
+        transform: translateY(4px);
+      }
+      /*************************************************
+        Define .title class
+      ************************************************/
+      .title {
+        position: absolute;
+        left: 45px;
+        top: -32px;
+        color: cornsilk;
+        font-family: 'Luminari', sans-serif;
+        font-size: 34px;
+        text-align: center;
+        margin-left: 27px;
+      }
+
+      body {
+        position: relative;
+        background: #333;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      .game-container {
+        position: absolute;
+        left: 1px;
+        top: 1px;
+        width: 1920px;
+        height: 1080px;
+        margin: 0 auto;
+        outline: 1px solid gray;
+        transform: scale(.4) translateX(-73%) translateY(-35%);
+      }
+
+      .game-container canvas {
+        image-rendering: pixelated;
+        position: abolsute;
+        left: 1px;
+        top: 1px;
+      }
+
+      .Battle {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-size: cover;
+        image-rendering: pixelated;
+      }
+
+      .bg-1 {
+        background-image: url(https://drive.google.com/uc?id=1C7Til4cvJIqnKl5RsVT-8BFwDrSp9d4d);
+      }
+
+      .bg-2 {
+        background-image: url(https://drive.google.com/uc?id=12W5MXYmvI9pgAqO0w1UGSGIHu638pnDU);
+      }
+
+      .bg-3 {
+        background-image: url(https://drive.google.com/uc?id=1hS7Gmp4rS6ADx_2h-EDB6dn7p3bLBMkH);
+      }
+
+      .bg-4 {
+        background-image: url(https://drive.google.com/uc?id=1sBXaHcP-GbOlZ87vNntrgXZ2BzaRu9DI);
+      }
+
+      .Battle_knight, .Battle_mage, .Battle_rogue, .Battle_cleric {
+        position: absolute;
+        transform: scale(6);
+        width: 32.5px;
+        height: 48.5px;
+        overflow: hidden;
+        image-rendering: pixelated;
+      }
+
+      .Battle_knight img, .Battle_mage img, .Battle_rogue img, .Battle_cleric img {
+        pointer-events: none;
+        transform: translateY(-97px);
+      }
+
+      .Battle_knight {
+        bottom: 150px;
+        left: 100px;
+      }
+
+      .Battle_mage {
+        bottom: 300px;
+        left: 250px;
+      }
+
+      .Battle_rogue {
+        bottom: 450px;
+        left: 400px;
+      }
+
+      .Battle_cleric {
+        bottom: 600px;
+        left: 550px;
+      }
+
+      .Battle_monster {
+        position: absolute;
+        transform: scale(10) rotateY(180deg);
+        width: 50px;
+        height: 46.4px;
+        overflow: hidden;
+        image-rendering: pixelated;
+        bottom: 375px;
+        right: 375px;
+      }
+
+      .Battle_monster img {
+        pointer-events: none;
+        transform: translateY(0px) translateX(-50px);
+      }
+
+      .Battle_textbox {
+        display: none;
+        position: absolute;
+        left: 810px;
+        top: 130px;
+        transform: scaleX(3.5) scaleY(2.5);
+      }
+
+      .Battle_textbox p{
+        display: block;
+        position: relative;
+        top: -58px;
+        text-align: center;
+        color: white;
+        font-size: 14px;
+      }
+
+      .currentAttackerArrow {
+        image-rendering: pixelated;
+        transform: scale(3.5) rotate(270deg);
+        position: absolute;
+        top: 656px;
+        left: 87px;
+      }
+
+      .TextBox {
+        position: absolute;
+        width: 767px;
+        height: 150px;
+        background-image: url(https://drive.google.com/uc?id=12V_hyYBmlg6nP8VJxqyWD_57SvRxBuo0);
+        background-size: cover;
+        image-rendering: pixelated;
+      }
+
+      .text-container {
+        position: absolute;
+        left: 17px;
+        bottom: -757px;
+        width: 767px;
+        height: 150px;
+        outline: 1px solid gray;
+      }
+
+      .text-container canvas {
+        position: absolute;
+        image-rendering: pixelated;
+      }
+
+      .text-container stat {
+        position: absolute;
+        color: white;
+        width: 230px;
+        height: 130px;
+        size: 12px;
+        left: 20px;
+        top: 15px;
+        line-height: 0.7;
+      }
+
+      .text-container monstat {
+        position: absolute;
+        color: white;
+        width: 130px;
+        height: 130px;
+        size: 14px;
+        right: 20px;
+        top: 15px;
+        line-height: 0.7;
+      }
+
+      .text-container monstat hp {
+        position: absolute;
+        right: 25px;
+        color: yellow;
+      }
+
+      .text-container monstat name {
+        position: absolute;
+        color: orange;
+        right: 23px;
+      }
+
+      .text-container pre {
+        font-size: 13px;
+      }
+
+      .text-container stat hp {
+        position: absolute;
+        right: 25px;
+        color: yellow;
+      }
+
+      .text-container stat mana {
+        position: absolute;
+        right: 115px;
+        color: lightblue;
+      }
+
+      .text-container stat name {
+        position: absolute;
+        color: orange;
+        left: 40px;
+      }
+      
+
+      .text-container actionBox {
+        //outline: 1px solid yellow;
+        position: absolute;
+        color: white;
+        width: 295px;
+        height: 115px;
+        size: 14px;
+        left: 260px;
+        top: 20px;
+        line-height: 0.7;
+      }
+
+      .menu {
+        display: none;
+        position: absolute;
+        width: 264px;
+        height: 91px;
+        left: 0px;
+        top: 0px;
+        background-image: url(https://drive.google.com/uc?id=13JgSK23NB2CcGb1ABrftpzgnUOiDKr7-);
+        background-size: cover;
+        image-rendering: pixelated;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        padding: 12px 16px;
+        z-index: 1;
+      }
+
+      .inventory {
+        color: white;
+        position: relative;
+        transform: scale(1.5) translate(144px, 64px);
+      }
+
+      .item {
+        font-size: 10px;
+        margin-left: 10px;
+      }
+
+      .item img{
+        transform: translate(-1px, 3px);
+      }
+
+      .energy{
+        background-repeat: no-repeat;
+        padding: 6px 12px;
+        font-size: 12px;
+        color: yellow;
+        position: relative;
+        top: -353px;
+        right: -284px;
+        transform: translate(58px, 33px);
+        background-size: 79px 26px;
+        background-image: url(https://drive.google.com/uc?id=1kAu9sKp0nLtV_FSp_sFphIuQ8frnQL4C);
+      }
+
+      .button1 potext {
+        color: #584034;
+        margin-left: 15px;
+      }
+
+      .pointsDisplay {
+        top: 34px;
+        position: absolute;
+        font-size: 20px;
+        color: #ffee92;
+        right: 316px;
+      }
+
+
+
+    </style>
+
+    <title class = "title">Swords and Sorcery</title>
+    <h1 class = "title">Swords and Sorcery: A Fantasy Adventure</h1>
+    <h1 class = "pointsDisplay">PR Points: <prp id="prp">???????</prp><h1>
+       <!-- Purchase Buttons ---> 
+       <div style = "position: absolute; margin-left: 53px; top: 83px;">
+        <button class = "button1" id="buyHealth"><img src="https://drive.google.com/uc?id=1CZF7lLQHHk-7Yu8JpM_FjQdIPMn0sy9k">
+        <potext>Health Ptn</potext><br><potext>50 Gold</potext></button>
+        <button class = "button1" id="buyMana"><img src="https://drive.google.com/uc?id=1KrKgpX9wNQOIcO9-glZWQwpPQwSN9ruG">
+        <potext>Mana Ptn</potext><br><potext>50 Gold</potext></button>
+        <button class = "button1" id="buyRevive"><img src="https://drive.google.com/uc?id=1N_U1HR-tjcTIED3t4oDbso4UE5u0NVbJ">
+        <potext>Revive Ptn</potext><br><potext>50 Gold</potext></button>
+        <button class = "button1" id="buyEnergy"><img src="https://drive.google.com/uc?id=1qDXHpvdmoMUfgnCA3FgM1zli4pxpcriv">
+        <potext>Refill Energy</potext><br><potext>50 Gold</potext></button>
+       </div>
+  </head>
+
+  <body>
+    <div class="game-container">
+      <canvas class="game-canvas" width="1920" height="1080">
+
+      </canvas>
+    </div>
+    <div class="text-container">
+      <canvas class = "text-canvas" width="765" height="150">
+
+      </canvas>
+
+    </div>
+
+  </body>
+
+  <script>
+    // retrieve point data 
+    var points = window.opener.points; 
+    //var points = 10000;
+
+    var fantasyData = window.opener.fantasyData;
+
+    var bgIndex = fantasyData[0];
+
+    var healthPotions = fantasyData[1];
+    var manaPotions = fantasyData[2];
+    var revivePotions = fantasyData[3];
+    var energy = fantasyData[4];
+
+    var _knightLevel = fantasyData[5];
+    var _knightCurrentHP = fantasyData[6];
+    var _knightCurrentMana = fantasyData[7];
+    var _knightXP = fantasyData[8];
+
+    var _mageLevel = fantasyData[9];
+    var _mageCurrentHP = fantasyData[10];
+    var _mageCurrentMana = fantasyData[11];
+    var _mageXP = fantasyData[12];
+
+    var _rogueLevel = fantasyData[13];
+    var _rogueCurrentHP = fantasyData[14];
+    var _rogueCurrentMana = fantasyData[15];
+    var _rogueXP = fantasyData[16];
+
+    var _clericLevel = fantasyData[17];
+    var _clericCurrentHP = fantasyData[18];
+    var _clericCurrentMana = fantasyData[19];
+    var _clericXP = fantasyData[20];
+
+    var _monsterLevel = fantasyData[21];
+    var _monsterCurrentHP = fantasyData[22];
+    var _monsterType = fantasyData[23];
+
+    var currentPlayer = fantasyData[24];
+    var currentCharacter = fantasyData[25];
+    var gameEnded = fantasyData[26];
+
+    //just a backup:
+    // var bgIndex = -1; var healthPotions = 0; var manaPotions = 0; var revivePotions = 0; var energy = 100;
+    // var _knightLevel = 1; var _knightCurrentHP = -1; var _knightCurrentMana = -1; var _knightXP = 40;
+    // var _mageLevel = 1; var _mageCurrentHP = -1; var _mageCurrentMana = -1; var _mageXP = 40;
+    // var _rogueLevel = 1; var _rogueCurrentHP = -1; var _rogueCurrentMana = -1; var _rogueXP = 40;
+    // var _clericLevel = 1; var _clericCurrentHP = -1; var _clericCurrentMana = -1; var _clericXP = 40;
+    // var _monsterLevel = -1; var _monsterCurrentHP = 1; var _monsterType = -1;
+    // var currentPlayer = 0; var currentCharacter = -1; var gameEnded = 0;
+
+    //client side
+    var alreadyTriggered = false;
+    var currentAttacker;
+    var bgClasses = ['bg-1', 'bg-2', 'bg-3', 'bg-4']; 
+    var imageUrls = [
+      "https://drive.google.com/uc?id=1C7Til4cvJIqnKl5RsVT-8BFwDrSp9d4d",
+      "https://drive.google.com/uc?id=12W5MXYmvI9pgAqO0w1UGSGIHu638pnDU",
+      "https://drive.google.com/uc?id=1hS7Gmp4rS6ADx_2h-EDB6dn7p3bLBMkH",
+      "https://drive.google.com/uc?id=1sBXaHcP-GbOlZ87vNntrgXZ2BzaRu9DI",
+      "https://drive.google.com/uc?id=1kAu9sKp0nLtV_FSp_sFphIuQ8frnQL4C",
+      "https://drive.google.com/uc?id=12V_hyYBmlg6nP8VJxqyWD_57SvRxBuo0",
+      "https://drive.google.com/uc?id=13JgSK23NB2CcGb1ABrftpzgnUOiDKr7-",
+      "https://drive.google.com/uc?id=101yVpJJDwpFLvIfHVgdruBrsMLUQ2CeZ",
+      "https://drive.google.com/uc?id=1eCYn-mHRbrdZ_1V40EF4-mZoI97Nf4Lr",
+      "https://drive.google.com/uc?id=1_QQWcVLCoL1oTSMkMqSezFC7TmB7nnSA",
+      "https://drive.google.com/uc?id=1Tp7wsTDnfeVl1cNkPrYONYv8Fv7Rok-j",
+      "https://drive.google.com/uc?id=1bo1z6HCD4sDbgGTbmviRA92kLQGnE9kA",
+      "https://drive.google.com/uc?id=17vdz65C8WUqWVJzLY8z3yLnkBXuFzfkL",
+      "https://drive.google.com/uc?id=1CZF7lLQHHk-7Yu8JpM_FjQdIPMn0sy9k",
+      "https://drive.google.com/uc?id=1KrKgpX9wNQOIcO9-glZWQwpPQwSN9ruG",
+      "https://drive.google.com/uc?id=1N_U1HR-tjcTIED3t4oDbso4UE5u0NVbJ",
+      "https://drive.google.com/uc?id=1qDXHpvdmoMUfgnCA3FgM1zli4pxpcriv",
+      "https://drive.google.com/uc?id=1HHs2r-tU7djCwUvGof8bm6jA-yv0WIyT",
+      "https://drive.google.com/uc?id=1wIJkvHL_HzP6J-3BbRdSI5NpFKJh_ECo",
+  ];
+
+
+  //NEW, BATTLE
+  class Knight{
+    constructor(level, curHP, curMana, xp ) {
+      this.name = "Knight";
+      this.level = level;
+      this.maxHP = 90 + (this.level * 10);
+      if(curHP < 0)
+      {
+        this.curHP = this.maxHP;
+      }
+      else {
+        this.curHP = curHP;
+      }
+      this.maxMana = 20 + (this.level * 2);
+      if(curMana < 0)
+      {
+        this.curMana = this.maxMana;
+      }
+      else {
+        this.curMana = curMana;
+      }
+      this.atk = 8 + (this.level * 3)
+      this.def = 10 + (this.level * 4);
+      this.magic = 2 + (this.level * 2);
+      this.spirit = 4 + (this.level * 2);
+      this.xp = xp;
+    }
+
+    reset(){
+      document.getElementById("KnightSprite").style.display = 'block';
+      //console.log(this.name + " reset");
+      this.name = "Knight";
+      this.level = this.level;
+      this.maxHP = 90 + (this.level * 10);
+      if(this.curHP <= 0)
+      {
+        this.curHP = Math.floor(this.maxHP/2);
+      }
+      else {
+        this.curHP = this.curHP;
+      }
+      this.maxMana = 20 + (this.level * 2);
+      this.curMana = this.curMana;
+      this.atk = 8 + (this.level * 3)
+      this.def = 10 + (this.level * 4);
+      this.magic = 2 + (this.level * 2);
+      this.spirit = 4 + (this.level * 2);
+      this.xp = this.xp;
+    }
+  }
+
+  class Mage{
+    constructor(level, curHP, curMana, xp ) {
+      this.name = "Mage";
+      this.level = level;
+      this.maxHP =  65 + (this.level * 5);
+      if(curHP < 0)
+      {
+        this.curHP = this.maxHP;
+      }
+      else {
+        this.curHP = curHP;
+      }
+      this.maxMana = 25 + (this.level * 4);
+      if(curMana < 0)
+      {
+        this.curMana = this.maxMana;
+      }
+      else {
+        this.curMana = curMana;
+      }
+      this.atk = 3 + (this.level * 1)
+      this.def = 6 + (this.level * 2);
+      this.magic = 10 + (this.level * 4)
+      this.spirit = 6 + (this.level * 3);
+      this.xp = xp;
+    }
+
+    reset() {
+      document.getElementById("MageSprite").style.display = 'block';
+      //console.log(this.name + " reset");
+      this.name = "Mage";
+      this.level = this.level;
+      this.maxHP =  65 + (this.level * 5);
+      if(this.curHP <= 0)
+      {
+        this.curHP = Math.floor(this.maxHP/2);
+      }
+      else {
+        this.curHP = this.curHP;
+      }
+      this.maxMana = 25 + (this.level * 4);
+      this.curMana = this.curMana;
+      this.atk = 3 + (this.level * 1)
+      this.def = 6 + (this.level * 2);
+      this.magic = 10 + (this.level * 4)
+      this.spirit = 6 + (this.level * 3);
+      this.xp = this.xp;
+    }
+  }
+
+  class Rogue{
+    constructor(level, curHP, curMana, xp ) {
+      this.name = "Rogue";
+      this.level = level;
+      this.maxHP = 83 + (this.level * 7);
+      if(curHP < 0)
+      {
+        this.curHP = this.maxHP;
+      }
+      else {
+        this.curHP = curHP;
+      }
+      this.maxMana = 15 + (this.level * 2);
+      if(curMana < 0)
+      {
+        this.curMana = this.maxMana;
+      }
+      else {
+        this.curMana = curMana;
+      }
+      this.atk = 9 + (this.level * 4)
+      this.def = 7 + (this.level * 3);
+      this.magic = 1 + (this.level * 1)
+      this.spirit = 3 + (this.level * 1);
+      this.xp = xp;
+    }
+
+    reset() {
+      document.getElementById("RogueSprite").style.display = 'block';
+      //console.log(this.name + " reset");
+      this.name = "Rogue";
+      this.level = this.level;
+      this.maxHP = 83 + (this.level * 7);
+      if(this.curHP <= 0)
+      {
+        this.curHP = Math.floor(this.maxHP/2);
+      }
+      else {
+        this.curHP = this.curHP;
+      }
+      this.maxMana = 15 + (this.level * 2);
+      this.curMana = this.curMana;
+      this.atk = 9 + (this.level * 4)
+      this.def = 7 + (this.level * 3);
+      this.magic = 1 + (this.level * 1)
+      this.spirit = 3 + (this.level * 1);
+      this.xp = this.xp;
+    }
+  }
+
+  class Cleric{
+    constructor(level, curHP, curMana, xp ) {
+      this.name = "Cleric";
+      this.level = level;
+      this.maxHP = 74 + (this.level * 6);
+      if(curHP < 0)
+      {
+        this.curHP = this.maxHP;
+      }
+      else {
+        this.curHP = curHP;
+      }
+      this.maxMana = 35 + (this.level * 3);
+      if(curMana < 0)
+      {
+        this.curMana = this.maxMana;
+      }
+      else {
+        this.curMana = curMana;
+      }
+      this.atk = 3 + (this.level * 2)
+      this.def = 7 + (this.level * 3);
+      this.magic = 8 + (this.level * 3)
+      this.spirit = 9 + (this.level * 4);
+      this.xp = xp;
+    }
+
+    reset(){
+      document.getElementById("ClericSprite").style.display = 'block';
+      //console.log(this.name + " reset");
+      this.name = "Cleric";
+      this.level = this.level;
+      this.maxHP = 74 + (this.level * 6);
+      if(this.curHP <= 0)
+      {
+        this.curHP = Math.floor(this.maxHP/2);
+      }
+      else {
+        this.curHP = this.curHP;
+      }
+      this.curMana = this.curMana;
+      this.atk = 3 + (this.level * 2)
+      this.def = 7 + (this.level * 3);
+      this.magic = 8 + (this.level * 3)
+      this.spirit = 9 + (this.level * 4);
+      this.xp = this.xp;
+    }
+  }
+
+  class Monster{
+    constructor(level, curHP, type) {
+      this.name = "Monster";
+      //level
+      if (level < 1){
+        this.level = Math.round(((knight.level + mage.level + rogue.level + cleric.level) / 4)) + (Math.floor(Math.random() * 11) - 5);
+        if(this.level < 1)
+        {
+          this.level = 1;
+        }
+      }
+      else {
+        this.level = level;
+      }
+
+      //max HP
+      this.maxHP = 50 + (this.level * 14);
+
+      //curHP
+      if (curHP < 0) {
+        this.curHP = this.maxHP;
+      }
+      else {
+        this.curHP = curHP;
+      }
+
+      //atk & def
+      this.atk = 7 + (this.level * 3);
+      this.def = 7 + (this.level * 3);
+
+      //monster type/sprite
+      if (type == -1){
+        this.type = Math.floor(Math.random() * (9 - 0 + 1)) + 0; //0-min, 9-max
+        console.log("monster type: " + this.type);
+      }
+      else {
+        this.type = type;
+      }
+    }
+
+    reset(){
+      this.level = Math.round(((knight.level + mage.level + rogue.level + cleric.level) / 4)) + (Math.floor(Math.random() * 11) - 5);
+      if(this.level < 1) {
+        this.level = 1;
+      }
+      this.maxHP = 50 + (this.level * 14);    
+      this.curHP = this.maxHP;
+      this.atk = 7 + (this.level * 3);
+      this.def = 7 + (this.level * 3);
+      this.type = (this.type + 1) % 10;
+      //this.type = Math.floor(Math.random() * (9 - 0 + 1)) + 0; //0-min, 9-max
+    }
+  }
+
+  class Battle{
+    constructor(){
+
+    }
+    
+    createElement(){
+      this.element = document.createElement("div");
+      this.element.id = "battle";
+      this.element.classList.add("Battle");
+      this.element.classList.add(bgClasses[bgIndex]);
+      this.element.innerHTML = (`
+      <div class="Battle_knight">
+        <img id="KnightSprite" src="${'https://drive.google.com/uc?id=101yVpJJDwpFLvIfHVgdruBrsMLUQ2CeZ'}" alt="Knight" />
+      </div>
+      <div class="Battle_mage">
+        <img id = "MageSprite" src="${'https://drive.google.com/uc?id=1eCYn-mHRbrdZ_1V40EF4-mZoI97Nf4Lr'}" alt="Mage" />
+      </div>
+      <div class="Battle_rogue">
+        <img id = "RogueSprite" src="${'https://drive.google.com/uc?id=1_QQWcVLCoL1oTSMkMqSezFC7TmB7nnSA'}" alt="Rogue" />
+      </div>
+      <div class="Battle_cleric">
+        <img id = "ClericSprite" src="${'https://drive.google.com/uc?id=1Tp7wsTDnfeVl1cNkPrYONYv8Fv7Rok-j'}" alt="Cleric" />
+      </div>
+      <div class="Battle_monster">
+        <img id = "MonsterSprite" src="${'https://drive.google.com/uc?id=1bo1z6HCD4sDbgGTbmviRA92kLQGnE9kA'}" alt="Monster" />
+      </div>
+      <div class="Battle_textbox" id="BattleTextBox">
+        <img style="display:none;" id = "BattleBoxBackgroundB" src="${'https://drive.google.com/uc?id=1kAu9sKp0nLtV_FSp_sFphIuQ8frnQL4C'}" alt="BattleTextBox" />
+        <img style="display:none;" id = "BattleBoxBackgroundR" src="${'https://drive.google.com/uc?id=17vdz65C8WUqWVJzLY8z3yLnkBXuFzfkL'}" alt="BattleTextBox" />
+        <p id="BattleText">jhgfdcvbnjhgfdcvbnjuytrdxcvbnjuytrdxcvbhyt</p>
+      </div>
+      <div id="hand" class="currentAttackerArrow">
+        <img src="${'https://drive.google.com/uc?id=1wIJkvHL_HzP6J-3BbRdSI5NpFKJh_ECo'}" alt="CurrentAttackerArrow" />
+      </div>
+      `)
+    }
+
+    init(container){
+        this.createElement();
+        container.appendChild(this.element);
+    }
+  }
+
+  class StatBox{
+    constructor(){
+    }
+
+    createElement(){
+      this.element = document.createElement("div");
+      this.element.classList.add("TextBox");
+      this.element.innerHTML = (`
+        <stat>
+          <pre>Lv.<level id="KnightLevel">1</level><name id="KnightName">?</name><mana id="KnightCurMana">??</mana><hp><curHP id="KnightHP">100</curHP>/<maxHP id="KnightMaxHP">100</maxHP> HP</hp></pre>
+          <pre>Lv.<level id="MageLevel">1</level><name id="MageName">?</name><mana id="MageCurMana">??</mana><hp><curHP id="MageHP">100</curHP>/<maxHP id="MageMaxHP">100</maxHP> HP</hp></pre>
+          <pre>Lv.<level id="RogueLevel">1</level><name id="RogueName">?</name><mana id="RogueCurMana">??</mana><hp><curHP id="RogueHP">100</curHP>/<maxHP id="RogueMaxHP">100</maxHP> HP</hp></pre>
+          <pre>Lv.<level id="ClericLevel">1</level><name id="ClericName">?</name><mana id="ClericCurMana">??</mana><hp><curHP id="ClericHP">100</curHP>/<maxHP id="ClericMaxHP">100</maxHP> HP</hp></pre>
+        </stat>
+        <monstat>
+          <pre>Lv. <level id="MonsterLevel">?</level><name id="MonsterName">?</name></pre><pre><hp><curHP id="MonsterHP">?</curHP> / <maxHP id="MonsterMaxHP">?</maxHP> HP</hp></pre>
+        </monstat>
+        <actionBox id="ActionBox">
+          <button class="button2" onclick="Attack()">Attack</button>
+          <button class="button2" onclick="openMenu2()">Magic</button>
+          <button class="button2" onclick="openMenu3()">Item</button>
+
+          <div id="menu2" class="menu">
+            <button class="button3" onclick="Fireball()">Fireball</button>
+            <button class="button3" onclick="openMenu4()">Heal</button>
+            <button class="button5" onclick="goBack('menu2')">Back</button>
+          </div>
+
+          <div id="menu3" class="menu">
+            <button class="button3" onclick="openMenu5()"><img style="transform: scale(2); padding: 1px 10px;" src="https://drive.google.com/uc?id=1CZF7lLQHHk-7Yu8JpM_FjQdIPMn0sy9k"></button>
+            <button class="button3" onclick="openMenu7()"><img style="transform: scale(2); padding: 1px 10px;" src="https://drive.google.com/uc?id=1KrKgpX9wNQOIcO9-glZWQwpPQwSN9ruG"></button>
+            <button class="button3" onclick="openMenu6()"><img style="transform: scale(2); padding: 1px 10px;" src="https://drive.google.com/uc?id=1N_U1HR-tjcTIED3t4oDbso4UE5u0NVbJ"></button>
+            <button class="button5" onclick="goBack('menu3')">Back</button>
+          </div>
+
+          <div id="menu4" class="menu">
+            <p style="font-size: 14px; color:white; position: absolute; top: -13px; left: 1px;">Heal:</p>
+            <button class="button4" onclick="Heal(knight)">Knight</button>
+            <button class="button4" onclick="Heal(mage)">Mage</button>
+            <button class="button4" onclick="Heal(rogue)">Rogue</button>
+            <button class="button4" onclick="Heal(cleric)">Cleric</button>
+            <button class="button5" onclick="goBack('menu4')">Back</button>
+          </div>
+
+          <div id="menu5" class="menu">
+            <p style="font-size: 14px; color:white; position: absolute; top: -13px; left: 1px;">Health:</p>
+            <button class="button4" onclick="Potion(knight)">Knight</button>
+            <button class="button4" onclick="Potion(mage)">Mage</button>
+            <button class="button4" onclick="Potion(rogue)">Rogue</button>
+            <button class="button4" onclick="Potion(cleric)">Cleric</button>
+            <button class="button5" onclick="goBack('menu5')">Back</button>
+          </div>
+
+          <div id="menu6" class="menu">
+            <p style="font-size: 14px; color:white; position: absolute; top: -13px; left: 1px;">Revive:</p>
+            <button class="button4" onclick="Revive(knight)">Knight</button>
+            <button class="button4" onclick="Revive(mage)">Mage</button>
+            <button class="button4" onclick="Revive(rogue)">Rogue</button>
+            <button class="button4" onclick="Revive(cleric)">Cleric</button>
+            <button class="button5" onclick="goBack('menu6')">Back</button>
+          </div>
+
+          <div id="menu7" class="menu">
+            <p style="font-size: 14px; color:white; position: absolute; top: -13px; left: 1px;">Mana:</p>
+            <button class="button4" onclick="ManaPotion(knight)">Knight</button>
+            <button class="button4" onclick="ManaPotion(mage)">Mage</button>
+            <button class="button4" onclick="ManaPotion(rogue)">Rogue</button>
+            <button class="button4" onclick="ManaPotion(cleric)">Cleric</button>
+            <button class="button5" onclick="goBack('menu7')">Back</button>
+          </div>
+
+        </actionBox>
+
+      <div class="inventory">
+          <potion class="item"><img src="https://drive.google.com/uc?id=1CZF7lLQHHk-7Yu8JpM_FjQdIPMn0sy9k">x<hpCt id="hpCt">?</hpCt></potion>
+          <potion class="item"><img src="https://drive.google.com/uc?id=1KrKgpX9wNQOIcO9-glZWQwpPQwSN9ruG">x<mpCt id="mpCt">?</mpCt></potion>
+          <potion class="item"><img src="https://drive.google.com/uc?id=1N_U1HR-tjcTIED3t4oDbso4UE5u0NVbJ">x<rpCt id="rpCt">?</rpCt></potion>
+          <potion class="energy">Energy: <epCt id="epCt">?</epCt></potion>
+      </div>
+      `)
+    }
+
+    init(container){
+        this.createElement();
+        container.appendChild(this.element);
+    }
+  }
+
+  function UpdateHand() {
+    let hand = document.getElementById('hand');
+    if (currentAttacker == knight) {
+      hand.style.top = "656px";
+      hand.style.left = "87px";
+    }
+    else if (currentAttacker == mage) {
+      hand.style.top = "488px";
+      hand.style.left = "240px";
+    }
+    else if (currentAttacker == rogue) {
+      hand.style.top = "357px";
+      hand.style.left = "393px";
+    }
+    else if (currentAttacker == cleric) {
+      hand.style.top = "186px";
+      hand.style.left = "540px";
+    }
+    else {
+      console.log("no current attacker for hand to point to");
+    }
+  }
+
+  function UpdateDisplay() { //names, level, and probably maxHP can prob be done once, instead of here (this is called in game loop)
+    //names
+    document.getElementById('KnightName').innerHTML = knight.name;
+    document.getElementById('MageName').innerHTML = mage.name;
+    document.getElementById('RogueName').innerHTML = rogue.name;
+    document.getElementById('ClericName').innerHTML = cleric.name;
+    document.getElementById('MonsterName').innerHTML = monster.name;   
+
+    //Levels
+    document.getElementById('KnightLevel').innerHTML = knight.level;
+    document.getElementById('MageLevel').innerHTML = mage.level;
+    document.getElementById('RogueLevel').innerHTML = rogue.level;
+    document.getElementById('ClericLevel').innerHTML = cleric.level;
+    document.getElementById('MonsterLevel').innerHTML = monster.level;
+
+    //currentMana
+    document.getElementById('KnightCurMana').innerHTML = knight.curMana;
+    document.getElementById('MageCurMana').innerHTML = mage.curMana;
+    document.getElementById('RogueCurMana').innerHTML = rogue.curMana;
+    document.getElementById('ClericCurMana').innerHTML = cleric.curMana;
+
+    //currentHP
+    document.getElementById('KnightHP').innerHTML = knight.curHP;
+    document.getElementById('MageHP').innerHTML = mage.curHP;
+    document.getElementById('RogueHP').innerHTML = rogue.curHP;
+    document.getElementById('ClericHP').innerHTML = cleric.curHP;
+    document.getElementById('MonsterHP').innerHTML = monster.curHP;
+
+    //maxHP
+    document.getElementById('KnightMaxHP').innerHTML = knight.maxHP;
+    document.getElementById('MageMaxHP').innerHTML = mage.maxHP;
+    document.getElementById('RogueMaxHP').innerHTML = rogue.maxHP;
+    document.getElementById('ClericMaxHP').innerHTML = cleric.maxHP;
+    document.getElementById('MonsterMaxHP').innerHTML = monster.maxHP;
+
+    //points
+    points = window.opener.points;
+    document.getElementById('prp').innerHTML = window.opener.points; ; //peer revue points;
+
+    //inventory
+    document.getElementById('hpCt').innerHTML = healthPotions;
+    document.getElementById('mpCt').innerHTML = manaPotions;
+    document.getElementById('rpCt').innerHTML = revivePotions;
+    document.getElementById('epCt').innerHTML = energy;
+
+    UpdateHand();
+    
+
+  }
+
+function PreloadImages(imageUrls, callback) {
+  var images = [];
+  var loadedCount = 0;
+  for (var i = 0; i < imageUrls.length; i++) {
+    var image = new Image();
+    image.onload = function() {
+      loadedCount++;
+      if (loadedCount === imageUrls.length) {
+        callback();
+      }
+    };
+    image.src = imageUrls[i];
+    images.push(image);
+  }
+}
+
+  function SetBackground(current){
+    if (current > -1)
+    {
+      bgIndex = current;
+    }
+    else {
+      bgIndex = Math.floor(Math.random() * bgClasses.length);
+    }
+  }
+
+  function SetEnemySprite() { //bookmark
+    let type = monster.type;
+    switch (type) {
+      case 0:
+        document.getElementById('MonsterSprite').style.transform = "translateX(0px) translateY(0px)"; 
+        monster.name = "Legs";
+        break;
+      case 1:
+        document.getElementById('MonsterSprite').style.transform = "translateX(-49px) translateY(0px)";
+        monster.name = "Thing";
+        break;
+      case 2:
+        document.getElementById('MonsterSprite').style.transform = "translateX(1px) translateY(-52px)";
+          monster.name = "Stinger";
+        break;
+      case 3:
+        document.getElementById('MonsterSprite').style.transform = "translateX(-46px) translateY(-52px)";
+        monster.name = "Serpent";
+        break;
+      case 4:
+        document.getElementById('MonsterSprite').style.transform = "translateX(-6px) translateY(-104px)";
+        monster.name = "Goblin";
+        break;
+      case 5:
+        document.getElementById('MonsterSprite').style.transform = "translateX(-51px) translateY(-104px)";
+        monster.name = "Peeper";
+        break;
+      case 6:
+        document.getElementById('MonsterSprite').style.transform = "translateX(-5px) translateY(-146px)";
+        monster.name = "Sorcerer";
+        break;
+      case 7:
+        document.getElementById('MonsterSprite').style.transform = "translateX(-51px) translateY(-148px)";
+        monster.name = "Bones";
+        break;
+      case 8:
+        document.getElementById('MonsterSprite').style.transform = "translateX(-9px) translateY(-186px)";
+        monster.name = "Spike";
+        break;
+      case 9:
+        document.getElementById('MonsterSprite').style.transform = "translateX(-56px) translateY(-186px)";
+        monster.name = "Oooooze";
+        break;
+      default:
+        console.log("Monster Type error: not between 0 and 9");
+    }
+  }
+
+
+  //Display Action Box functions
+  function ShowActionBox() {
+    delay(100).then(() => {
+      //console.log("action box show");
+      const _actionBox = document.getElementById('ActionBox');
+      _actionBox.style.display = 'block';
+    });
+  }
+
+  function HideActionBox() {
+    //console.log("action box hide");
+    const _actionBox = document.getElementById('ActionBox');
+    _actionBox.style.display = 'none';
+  }
+
+  function TextAlert(string, issuer, duration=2500) {
+    //console.log("text alert");
+    let _battleTextBox = document.getElementById('BattleTextBox');
+    let _battleBoxBackground = null;
+
+    if (issuer == monster) {
+      _battleBoxBackground = document.getElementById('BattleBoxBackgroundR');
+    }
+    else {
+      _battleBoxBackground = document.getElementById('BattleBoxBackgroundB');
+    }
+    _battleBoxBackground.style.display = 'block';
+
+    document.getElementById('BattleText').innerHTML = string;
+
+    _battleTextBox.style.display = 'block';
+    delay(duration).then(() => {
+      //console.log("action box show");
+      _battleBoxBackground.style.display = 'none';
+     _battleTextBox.style.display = 'none';
+    });
+
+  }
+
+  // Action Functions
+  function Attack() {
+    if(energy - 20 >= 0)
+    {
+      energy -= 20;
+      HideActionBox();
+
+      //console.log("attack clicked");
+      let attacker = currentAttacker;
+      //let attacker = knight;
+      let damage = Math.max(attacker.atk + (attacker.atk - (monster.def/2)), 1);
+      let deal = Math.floor(damage);
+
+      const message = attacker.name + " dealt <dmg style='color:lightblue'>" + deal + " damage</dmg> to <tar style='color:orange'>" + monster.name + "</tar>";
+      document.getElementById('BattleText').innerHTML = message;
+
+      TextAlert(message, attacker);
+
+      delay(2500).then(() => { //2000ms = 2s
+        if(monster.curHP - deal > 0) {
+          monster.curHP -= deal;        
+        }
+        else {
+          monster.curHP = 0;
+        }
+        currentCharacter += 1;
+        currentCharacter = currentCharacter % aliveTargets.length;
+        //console.log("new char index is " + currentCharacter);
+        currentAttacker = aliveTargets[currentCharacter];
+        //console.log("attacker is now " + currentAttacker.name)
+        currentPlayer = 1;
+        SyncData();
+      });
+    }
+    else {
+      TextAlert("Not enough Energy!", currentAttacker, 1000);
+    }
+  }
+
+  function Fireball() {
+    let attacker = currentAttacker;
+    console.log(attacker.name + " mana:" + attacker.curMana);
+    if (energy - 20 >= 0 && attacker.curMana - 12 >= 0) {
+      //console.log("fireball clicked");
+      energy -= 20;
+      attacker.curMana -= 12;
+      console.log("new mana:" + attacker.curMana);
+      goBack('menu2'); //important to reset menu
+      HideActionBox();
+
+      //let attacker = currentAttacker;
+      let damage = Math.max(attacker.magic + (attacker.magic - (monster.def/2)), 1);
+      let deal = Math.floor(damage);
+
+      const message = attacker.name + "'s Fireball dealt <fb style='color:lightblue'>" + deal + " damage</fb> to <targ style='color:orange'>" + monster.name + "</tar>";
+      document.getElementById('BattleText').innerHTML = message;
+
+      TextAlert(message, attacker);
+
+      delay(2500).then(() => { //2000ms = 2s
+        if(monster.curHP - deal > 0) {
+          monster.curHP -= deal;        
+        }
+        else {
+          monster.curHP = 0;
+        }
+        currentCharacter += 1;
+        currentCharacter = currentCharacter % aliveTargets.length;
+        //console.log("new char index is " + currentCharacter);
+        currentAttacker = aliveTargets[currentCharacter];
+        //console.log("new attacker is " + currentAttacker.name);
+        currentPlayer = 1;
+        SyncData();
+      });
+    }
+    else if (energy - 20 < 0) {
+      TextAlert("Not enough Energy!", currentAttacker, 1000);
+    } else if( attacker.curMana - 12 < 0) {
+      TextAlert("Insufficient Mana!", currentAttacker, 1000);
+    }
+  }
+
+  function Heal(choice) {
+    console.log("Heal clicked");
+    if(energy - 20 >= 0) {
+      if (currentAttacker.curMana - 14 >= 0) {
+        if(choice.curHP > 0) {
+          if (choice.curHP < choice.maxHP) {
+            currentAttacker.curMana -= 14;  
+            goBack('menu4'); //important to reset menu
+            //goBack('menu3'); //important to reset menu   
+            goBack('menu2'); //important to reset menu
+            HideActionBox();
+
+            let healAmt = Math.floor(currentAttacker.spirit * 3);
+            const message = choice.name + " restored <healtext style='color:lightgreen'>" + healAmt + " health </healtext> via Healing Magic!";
+            document.getElementById('BattleText').innerHTML = message;
+
+            TextAlert(message, currentAttacker);
+
+            delay(2500).then(() => { //2000ms = 2s
+              if (choice.curHP + healAmt > choice.maxHP) {
+                choice.curHP = choice.maxHP;
+              }
+              else{
+                choice.curHP += healAmt;
+              }
+              currentCharacter += 1;
+              currentCharacter = currentCharacter % aliveTargets.length;
+              //console.log("new char index is " + currentCharacter);
+              currentAttacker = aliveTargets[currentCharacter];
+              //console.log("new attacker is " + currentAttacker.name);
+              currentPlayer = 1;
+              SyncData();
+            });
+          }
+          else {
+            TextAlert((choice.name + " HP already Full!"), currentAttacker, 1000);            
+          }
+        }
+        else {
+          TextAlert((choice.name + " is Dead! Can't heal."), currentAttacker, 1000);
+        }
+      }
+      else {
+        TextAlert("Insufficient Mana!", currentAttacker, 1000);
+      }
+    } 
+    else {
+      TextAlert("Not enough Energy!", currentAttacker, 1000);       
+    }
+  }
+
+  function Potion(choice) {
+    if (healthPotions > 0) {
+      if(choice.curHP > 0) {
+        if (choice.curHP < choice.maxHP) { //HEAL choice
+          console.log(choice.name + " potion'd");
+          goBack('menu5'); //important to reset menu
+          goBack('menu3'); //important to reset menu   
+          goBack('menu2'); //important to reset menu       
+          HideActionBox();
+
+          let healAmt = Math.floor(choice.maxHP / 2);
+          const message = choice.name + " restored <healtext style='color:lightgreen'>" + healAmt + " health </healtext> via Potion!";
+          document.getElementById('BattleText').innerHTML = message;
+
+          TextAlert(message, currentAttacker);
+
+          delay(2500).then(() => { //2000ms = 2s
+            healthPotions -= 1;
+            if (choice.curHP + healAmt > choice.maxHP) {
+              choice.curHP = choice.maxHP;
+            }
+            else{
+              choice.curHP += healAmt;
+            }
+            currentCharacter += 1;
+            currentCharacter = currentCharacter % aliveTargets.length;
+            //console.log("new char index is " + currentCharacter);
+            currentAttacker = aliveTargets[currentCharacter];
+            //console.log("new attacker is " + currentAttacker.name);
+            currentPlayer = 1;
+            SyncData();
+          });
+        }
+        else {
+          TextAlert((choice.name + " HP already Full!"), currentAttacker, 1000);
+        }
+      }
+      else {
+          TextAlert((choice.name + " is Dead! Can't heal."), currentAttacker, 1000);
+      }
+    }
+    else {
+      TextAlert("No Potions in Inventory!", currentAttacker, 1000);
+    }
+  }
+
+  function ManaPotion(choice) {
+    if (manaPotions > 0) {
+      if (choice.curMana < choice.maxMana) { 
+        console.log(choice.name + " manapotion'd");
+        goBack('menu7'); //important to reset menu
+        goBack('menu3'); //important to reset menu   
+        goBack('menu2'); //important to reset menu       
+        HideActionBox();
+
+        let manaAmt = Math.floor(choice.maxMana * (3/4));
+        const message = choice.name + " restored <manaUptext style='color:lightblue'>" + manaAmt + " mana </manaUptext> via Potion!";
+        document.getElementById('BattleText').innerHTML = message;
+
+        TextAlert(message, currentAttacker);
+
+        delay(2500).then(() => { //2000ms = 2s
+          manaPotions -= 1;
+          if (choice.curMana + manaAmt > choice.maxMana) {
+            choice.curMana = choice.maxMana;
+          }
+          else{
+            choice.curMana += manaAmt;
+          }
+          currentCharacter += 1;
+          currentCharacter = currentCharacter % aliveTargets.length;
+          //console.log("new char index is " + currentCharacter);
+          currentAttacker = aliveTargets[currentCharacter];
+          //console.log("new attacker is " + currentAttacker.name);
+          currentPlayer = 1;
+          SyncData();
+        });
+      }
+      else {
+        TextAlert((choice.name + " Mana already Full!"), currentAttacker, 1000);
+      }
+    }
+    else {
+      TextAlert("No Mana Potions in Inventory!", currentAttacker, 1000);
+    }
+  }
+  
+
+  function Revive(choice) {
+    if (revivePotions > 0) {
+      if (choice.curHP < 1) { 
+        console.log(choice.name + " revived");
+        goBack('menu6'); //important to reset menu
+        goBack('menu3'); //important to reset menu   
+        goBack('menu2'); //important to reset menu
+        HideActionBox();
+
+        let manaAmt = Math.floor(choice.maxMana / 2);
+        const message = choice.name + " <revtext style='color:lightgreen'> revived! </manaUptext>";
+        document.getElementById('BattleText').innerHTML = message;
+
+        TextAlert(message, currentAttacker);
+
+        delay(2500).then(() => { //2000ms = 2s
+          revivePotions -= 1;
+          if(choice==knight)
+          {
+            document.getElementById("KnightSprite").style.display = 'block';
+          }
+          else if(choice==mage)
+          {
+            document.getElementById("MageSprite").style.display = 'block';
+          }
+          else if(choice==rogue)
+          {
+            document.getElementById("RogueSprite").style.display = 'block';
+          }
+          else if(choice==cleric)
+          {
+            document.getElementById("ClericSprite").style.display = 'block';
+          }
+          choice.curHP = Math.floor(choice.maxHP/2);
+          UpdateAliveTargets();
+          currentCharacter += 1;
+          currentCharacter = currentCharacter % aliveTargets.length;
+          //console.log("new char index is " + currentCharacter);
+          currentAttacker = aliveTargets[currentCharacter];
+          //console.log("new attacker is " + currentAttacker.name);
+          currentPlayer = 1;
+          SyncData();
+        });
+      }
+      else {
+        TextAlert((choice.name + " is not Dead!"), currentAttacker, 1000);
+      }
+    }
+    else {
+      TextAlert("No Revive Potions in Inventory!", currentAttacker, 1000);
+    } 
+  }
+
+  function EnemyAttack()
+  {
+    currentPlayer = 0;
+    const randomIndex = Math.floor(Math.random() * aliveTargets.length);
+    //console.log(aliveTargets);
+    let target = aliveTargets[randomIndex];
+    let damage = Math.max(monster.atk + (monster.atk - (target.def/2)), 1);
+    let deal = Math.floor(damage);
+
+    const message = monster.name + " dealt " + deal + " damage to " + target.name;
+    document.getElementById('BattleText').innerHTML = message;
+
+    TextAlert(message, monster);
+
+    delay(2500).then(() => { //2000ms = 2s
+      if(target.curHP - deal > 0) {
+        target.curHP -= deal;        
+      }
+      else { //dead
+        target.curHP = 0;
+        if(target==knight)
+        {
+          document.getElementById("KnightSprite").style.display = 'none';
+        }
+        else if(target==mage)
+        {
+          document.getElementById("MageSprite").style.display = 'none';
+        }
+        else if(target==rogue)
+        {
+          document.getElementById("RogueSprite").style.display = 'none';
+        }
+        else if(target==cleric)
+        {
+          document.getElementById("ClericSprite").style.display = 'none';
+        }
+
+        if (target == currentAttacker && !gameEnded) {
+          UpdateAliveTargets();
+          currentCharacter = currentCharacter % aliveTargets.length;
+          console.log("attackert was killed...");
+          //console.log("current char index: " + currentCharacter);
+          currentAttacker = aliveTargets[currentCharacter];
+          console.log("new attacker is " + currentAttacker.name);
+        }
+      }
+      //console.log("enemy attacked");
+      SyncData();
+      ShowActionBox();
+    });
+  }
+
+  function GiveXP() { //(to alive teammates
+    //console.log("give xp start");
+    UpdateAliveTargets();
+    //console.log(aliveTargets);
+
+    let xp_gain = monster.level * 9;
+    if(aliveTargets.length > 0) {
+      let names = aliveTargets.map(target => target.name);
+      let namesString = names.join(', ');
+      TextAlert(namesString + " gained <xp style='color:gold'>" + xp_gain + " XP!</xp>", knight, 5000); 
+      console.log(aliveTargets + " gained " + xp_gain + " XP!");
+    }
+    else{
+      TextAlert("DEFEATED... you rest for a while..", knight, 5000);      
+    }
+
+    for (var i = 0; i < aliveTargets.length; i++)
+    {
+      let character = aliveTargets[i];
+      if(character.curHP > 0) { //is alive
+        console.log(character.name + ": " + character.xp + " / " + getNextLevelCost(character))
+        console.log(character.name + " gained " + xp_gain + " XP!");
+        character.xp += xp_gain;
+        console.log(character.name + ": " + character.xp + " / " + getNextLevelCost(character))
+        while (character.xp >= getNextLevelCost(character)) {
+          character.level += 1;
+          console.log(character.name +" leveled up to Lv." + character.level);
+          character.curHP = character.maxHP;
+          character.xp -= getNextLevelCost(character);
+          if (character.xp < 0) {
+            character.xp = 0;
+          } 
+          console.log(character.name + ": " + character.xp + " / " + getNextLevelCost(character))
+        }
+      }      
+    }
+    UpdateDisplay();
+  }
+
+  function getNextLevelCost(character) {
+    // Calculate the cost to level up based on the current level
+    var baseCost = 35;
+    var levelMultiplier = 1.2; // Increase cost by 20% for each level
+    return Math.round(baseCost * Math.pow(levelMultiplier, character.level));
+  }
+
+  function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  // Menu Change functions
+  function openMenu2() {
+    var menu2 = document.getElementById("menu2");
+    menu2.style.display = "block";
+  }
+
+  function openMenu3() {
+    var menu3 = document.getElementById("menu3");
+    menu3.style.display = "block";
+  }
+
+  function openMenu4() {
+    var menu4 = document.getElementById("menu4");
+    menu4.style.display = "block";
+  }
+
+  function openMenu5() {
+    var menu5 = document.getElementById("menu5");
+    menu5.style.display = "block";
+  }
+
+  function openMenu6() {
+    var menu6 = document.getElementById("menu6");
+    menu6.style.display = "block";
+  }
+
+  function openMenu7() {
+    var menu7 = document.getElementById("menu7");
+    menu7.style.display = "block";
+  }
+
+  function goBack(menuId) {
+    var menu = document.getElementById(menuId);
+    menu.style.display = "none";
+  }
+
+  PreloadImages(imageUrls, function() {
+    console.log("All images are preloaded and ready to use!");
+    // can start using the preloaded images here (no worky)
+  });
+
+  SetBackground(bgIndex);
+ 
+  //creating objects starts here
+  function NewBattle(){
+    
+  }
+
+
+  const battle = new Battle({
+
+  })
+
+  const statbox = new StatBox({
+
+  })
+
+  //initialize battle based on game data
+  var knight = new Knight(_knightLevel, _knightCurrentHP, _knightCurrentMana, _knightXP); //level, currentHP, XP
+  var mage = new Mage(_mageLevel, _mageCurrentHP,_mageCurrentMana, _mageXP); 
+  var rogue = new Rogue(_rogueLevel, _rogueCurrentHP, _rogueCurrentMana, _mageXP); 
+  var cleric = new Cleric(_clericLevel, _clericCurrentHP, _clericCurrentMana, _clericXP); //bookmark
+  var monster = new Monster(_monsterLevel,_monsterCurrentHP, _monsterType); 
+  //console.log("monster type: " + monster.type);             
+
+
+  const targets = [knight, mage, rogue, cleric];
+  var aliveTargets = [];
+
+  var monsterDefeated = false;
+
+  function UpdateAliveTargets() {
+    aliveTargets = targets.filter((obj) => obj.curHP > 0);
+  }
+  UpdateAliveTargets();
+
+  if (currentCharacter == -1) {
+    currentCharacter = 0;
+    currentAttacker = aliveTargets[0];
+  }
+  else {
+    currentAttacker = aliveTargets[currentCharacter];
+  }
+
+  statbox.init(document.querySelector(".text-container"));
+  battle.init(document.querySelector(".game-container"));;
+
+  SetEnemySprite();
+
+  // Function to process a turn for the current player
+  function processTurn() {
+    if ( currentPlayer == 0) {
+    
+    } else if ( currentPlayer == 1 && monster.curHP > 0) {
+      EnemyAttack();
+    }
+    
+    // Check if the game has ended
+    if (gameHasEnded()) {
+      gameEnded = 1;
+      HideActionBox();
+      console.log("game has ended");
+      SyncData();
+      // Perform game over actions
+      // ...
+    }
+  }
+
+  function gameHasEnded() {
+    if (monster.curHP <= 0 && !monsterDefeated){
+      //turn off monster sprite
+      document.getElementById('MonsterSprite').style.display = 'none';
+      monsterDefeated = true;
+      return true;
+    }
+    else if(knight.curHP <= 0 && mage.curHP <= 0 && rogue.curHP <= 0 && cleric.curHP <= 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  function UpdateAliveTargets() {
+    aliveTargets = targets.filter((obj) => obj.curHP > 0);
+  }
+
+  function gameLoop() {
+    if (gameEnded == 1) {
+      //clearInterval(gameInterval); //stops gameloop
+      if (!alreadyTriggered)
+      {
+        GiveXP();          
+        alreadyTriggered = true;
+        delay(6500).then(() => {
+          ResetGame();
+          gameEnded = 0;
+          alreadyTriggered = false;
+          SyncData();
+        });    
+      }
+    }
+
+    UpdateAliveTargets()
+    UpdateDisplay();
+    // SyncData();
+    
+    // Process current player's turn
+    if (gameEnded == 0) {
+      //console.log("processing turn??");
+      processTurn();     
+    }
+
+  }
+
+  function ResetGame() {
+    // if (monster.curHP > 0) {
+    //   knight.curHP = Math.floor(knight.maxHP/2);
+    //   mage.curHP = Math.floor(mage.maxHP/2);
+    //   rogue.curHP = Math.floor(rogue.maxHP/2);
+    //   cleric.curHP = Math.floor(cleric.maxHP/2);
+    // }
+    //reset chars (sync to level)
+    knight.reset();
+    mage.reset();
+    rogue.reset();
+    cleric.reset();
+
+    currentPlayer = 0;
+    UpdateAliveTargets();
+    currentAttacker=knight;
+    currentCharacter = 0;
+    ShowActionBox();
+
+    //reset background
+    let batelem = document.getElementById('battle');
+    batelem.classList.remove('bg-1', 'bg-2', 'bg-3', 'bg-4');
+    bgIndex = Math.floor(Math.random() * 4);
+    console.log("new bgindex: " + bgIndex);
+    batelem.classList.add(bgClasses[bgIndex]);
+
+    //reset monster
+    //monster = new Monster(-1,-1,-1);
+    monster.reset();
+    document.getElementById('MonsterSprite').style.display = 'block';
+    SetEnemySprite(); //sets name too
+    UpdateDisplay();
+    monsterDefeated = false;
+    console.log("game reset, monster remade");
+    SyncData();
+    // Reset other game state variables as needed
+  }
+
+  function SyncData() {
+    window.opener.fantasyData = [
+      bgIndex,
+      healthPotions,
+      manaPotions,
+      revivePotions,
+      energy,
+      knight.level,
+      knight.curHP,
+      knight.curMana,
+      knight.xp,
+      mage.level,
+      mage.curHP,
+      mage.curMana,
+      mage.xp,
+      rogue.level,
+      rogue.curHP,
+      rogue.curMana,
+      rogue.xp,
+      cleric.level,
+      cleric.curHP,
+      cleric.curMana,
+      cleric.xp,
+      monster.level,
+      monster.curHP,
+      monster.type,
+      currentPlayer,
+      currentCharacter,
+      gameEnded
+    ];
+  }
+
+  SyncData(); //sync on open, good for maintaining random values of spawned enemy
+  const gameInterval = setInterval(gameLoop, 1000 / 60); // Run the loop approximately 60 times per second
+
+  //END BATTLE
+    document.querySelector("body").style.backgroundColor = "#5d5347";
+  
+    /* Buy Health Potion button functionality  */
+    document.getElementById("buyHealth").addEventListener("click", function() {
+       if(points >= 50 && healthPotions < 99){
+          //add item to inventory
+            healthPotions += 1;
+          // update points in game window
+            points-=50;
+          //update points in peer revue widget
+            window.opener.points = points;
+            // of course feel free to change this text to whatever you like 
+            window.opener.updatePointsAfterGamePurchase(" -50 Enjoy your Health Potion ");
+            SyncData();
+      }
+    }); 
+
+    /* Buy Mana Potion button functionality  */
+    document.getElementById("buyMana").addEventListener("click", function() {
+      if(points >= 50 && manaPotions < 99){
+        //add item to inventory
+        manaPotions += 1;
+        // update points in game window
+        points-=50;
+        //update points in peer revue widget
+        window.opener.points = points;
+        // of course feel free to change this text to whatever you like 
+        window.opener.updatePointsAfterGamePurchase(" -50 Enjoy your Mana Potion! ");
+        SyncData();
+      }
+    }); 
+
+    /* Buy Revive Potion button functionality  */
+    document.getElementById("buyRevive").addEventListener("click", function() {
+      if(points >= 50 && revivePotions < 99){
+        //add item to inventory
+        revivePotions += 1;
+        // update points in game window
+        points-=50;
+        //update points in peer revue widget
+        window.opener.points = points;
+        // of course feel free to change this text to whatever you like 
+        window.opener.updatePointsAfterGamePurchase(" -50 Enjoy your Revive Potion! ");
+        SyncData();
+      }
+    });
+
+    /* Buy Energy Potion button functionality  */
+    document.getElementById("buyEnergy").addEventListener("click", function() {
+      if(points >= 50 && energy < 100){
+        //add item to inventory
+        energy = 100;
+        // update points in game window
+        points-=50;
+        //update points in peer revue widget
+        window.opener.points = points;
+        // of course feel free to change this text to whatever you like 
+        window.opener.updatePointsAfterGamePurchase(" -50 Enjoy your Energy! ");
+        SyncData();
+      }
+    }); 
+
+  </script>
+</html>
