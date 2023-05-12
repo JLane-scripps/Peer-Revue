@@ -5,6 +5,154 @@
  */
 
 
+/***************
+ * Firebase stuff
+ */
+
+
+/****************************
+ * Writes data to firebase
+ * @param id : user id generated
+ * @param username: username the user chose when registering
+ * @param points : how many points the user has
+ * @param aquariumArray: array represemnting how many fish the user had in the aquarium
+ * @param fantasyArray: array representing the game data for the fantasy game
+ */
+function writeToFirebase(id, username, points, aquariumArray, fantasyArray){
+// we want to\ use better and more secure way of accessing firebase, this is just
+// because we are in early stages of developement.
+  var firebaseUrl = /**REDACTED FOR SECURITY **/
+  var firebaseSecret = /**REDACTED FOR SECURITY **/
+  var database = FirebaseApp.getDatabaseByUrl(firebaseUrl, firebaseSecret);
+
+  var email = Session.getActiveUser().getEmail()
+  Logger.log("email = " + email);
+ 
+  // write to usernamedirectory 
+  database.setData("users/" + id, {
+    "email" : email,
+    "username": username,
+    "points": points,
+    "aquarium": aquariumArray,
+    "fantasy": fantasyArray
+  });
+}
+
+
+// converts an array to a string
+function arrayToString(array){
+  var strArr = "";
+  for( let i = 0 ; i < array.length; i++)
+    strArr+= array[i].toString() + ',';
+
+
+  Logger.log("strArr = " + strArr);
+  return strArr;
+}
+
+
+
+//string to an int array
+function stringToArray(str){
+
+  // this here is just for debugging
+  //str = "32,32,44,11,32,";
+
+  str = str.substring(0,str.length-1)
+
+  var array = str.split(',').map(function(item) {
+    return parseInt(item, 10);
+});
+
+
+  Logger.log(array)
+
+
+return array;
+
+
+}
+
+function retrieveUserData(){
+  
+  var user = generateID();
+
+// we want to\ use better and more secure way of accessing firebase, this is just
+// because we are in early stages of developement.
+  var firebaseUrl = /**REDACTED FOR SECURITY **/
+  var firebaseSecret = /**REDACTED FOR SECURITY **/
+  var database = FirebaseApp.getDatabaseByUrl(firebaseUrl, firebaseSecret);
+
+  // Read data from the Firebase Realtime Database
+  var data = database.getData("users/" + user);
+
+
+  Logger.log(data);
+
+  return data;
+}
+
+
+
+/************************************************
+ *  Returns username that is stored in the cache (soon to be database !)
+ ************************************************/
+function getUser(){
+  var cache = CacheService.getUserCache();
+  
+
+ if( retrieveUserData() == null){ //you can change this condition to if-true when testing
+    showPrompt();
+  } 
+  var data = retrieveUserData();
+
+  var username = data.username;
+
+
+   Logger.log(username);
+  // returns cache data that is associated with the key "username"
+
+
+  return username;
+
+}
+
+
+
+function generateID(){
+  var email = Session.getActiveUser().getEmail()
+  Logger.log("email = " + email);
+  var user = email.split('@')[0];
+  Logger.log("user = " + user);
+
+  // This algorithm generates IDs that are NOT necessarily unique and needs to be improved.
+  // It was just an easy way to implement user ids in a short amount of time for the early stages
+  // of this project
+  id = "";
+  for(var i = 0; i < user.length; i++){
+    id+= (user.charCodeAt(i)).toString();
+  }
+
+  
+  Logger.log("user id = "+ id);
+  return id;
+}
+
+
+function readData() {
+// we want to\ use better and more secure way of accessing firebase, this is just
+// because we are in early stages of developement.
+  var firebaseUrl = /**REDACTED FOR SECURITY **/
+  var firebaseSecret = /**REDACTED FOR SECURITY **/
+  var database = FirebaseApp.getDatabaseByUrl(firebaseUrl, firebaseSecret);
+
+  // Read data from the Firebase Realtime Database
+  var data = database.getData("path/to/data");
+  Logger.log(data);
+}
+
+
+
 /**
  * @OnlyCurrentDoc
  *
@@ -58,12 +206,11 @@ function showPrompt() {
     }
   }
 
-  // retrieve user cache
-  var cache = CacheService.getUserCache();
-  
-  // add username to user cache
-  cache.put("username", text);
 
+  // add user identifier and user  to firebase
+  //id, username, points, aquariumArray, fantasyArray
+  writeToFirebase(generateID() ,text ,0 ,arrayToString(getAquariumData()),arrayToString(getFantasyData()));
+  
   return text;
 }
 
@@ -94,7 +241,6 @@ function showSidebar() {
       .setTitle('Peer Revue');
   DocumentApp.getUi().showSidebar(ui);
 
-
  
 }
 
@@ -114,8 +260,6 @@ function getFantasyHtml() {
   Logger.log(html)
   return html;
 }
-
-
 
 
 /***********************
@@ -146,37 +290,113 @@ function howManyParagraphs(){
 
 }
 
-/************************************************
- *  Returns username that is stored in the cache
- ************************************************/
-function getUser(){
-  var cache = CacheService.getUserCache();
 
-   if( cache.get("username") == null){ //you can change this condition to if-true when testing
-    showPrompt();
-  }
-  var username = cache.get("username");
-   Logger.log(username);
-  // returns cache data that is associated with the key "username"
-  return username;
-
-}
-/****************************************************************
- * Uploads image based on the Url 
- ****************************************************************/
-function uploadImageFromUrl(imageUrl) {
-  var imageBlob = UrlFetchApp.fetch(imageUrl).getBlob();
-  // Save the image blob to Google Drive or Google Cloud Storage
-  return "Image uploaded successfully";
-}
+/********* 
+ *  getters n setters
+ * 
+*/
 
 function processPoints(points) {
 	Logger.log("Received data: " + points);
-  CacheService.getUserCache().put("points", points);
+
+  var data = retrieveUserData();
+  if(data != null){
+  data.points = points;
+  //id, username, points, aquariumArray, fantasyArray
+  writeToFirebase(generateID(), data.username, data.points, data.aquarium, data.fantasy);
+  }else{
+    Logger.log("Cant write to firebase if account data is null");
+  }
+
+}
+
+
+function setFantasyData(array){
+
+  Logger.log("Received fantasy data: " +array);
+  var strArray =arrayToString(array);
+  var data = retrieveUserData();
+  if(data != null){
+    Logger.log("retrieved array = " + strArray);
+    data.fantasy = strArray;
+    Logger.log("fantasy is now : " + data.fantasy);
+    //id, username, points, aquariumArray, fantasyArray
+    writeToFirebase(generateID(), data.username, data.points, data.aquarium, data.fantasy);
+  }else{
+    Logger.log("Cant write to firebase if account data is null");
+  }
+}
+
+function setAquariumData(array){
+  Logger.log("Received aquarium data: " +array);
+  var strArray = arrayToString(array);
+  var data = retrieveUserData();
+  if(data != null){
+    Logger.log("retrieved array = " + strArray);
+    data.aquarium = strArray;
+    Logger.log("aquarium is now : " + data.aquarium);
+    //id, username, points, aquariumArray, fantasyArray
+    writeToFirebase(generateID(), data.username, data.points, data.aquarium, data.fantasy);
+  }else{
+    Logger.log("Cant write to firebase if account data is null");
+  }
+}
+
+function getFantasyData(){
+  var fantasy = [
+      -1, 0, 0, 0, 100, //background index, potions, energy
+      1, -1, -1, 40, //knight lv, hp, mana, xp
+      1, -1, -1, 40, //mage   lv, hp, mana, xp
+      1, -1, -1, 40, //rogue  lv, hp, mana, xp
+      1, -1, -1, 40, //cleric lv, hp, mana, xp
+      -1, -1, -1, //monster level, hp, type
+      0, -1, 0 //currentPlayer, currentCharacter, gameEnded
+    ];
+
+  Logger.log("fantasy prior to retrieval =" + fantasy);
+
+  var data = retrieveUserData();
+  if(data == null){
+    Logger.log("data is null");
+  }else{
+    fantasy = stringToArray(data.fantasy);
+    Logger.log("fantasy post recieval: " + fantasy);
+
+  }
+  return fantasy;
+}
+
+function getAquariumData(){
+  var aquarium = [0,0,0,0,0];
+  Logger.log("aquarium prior to retrieval = " + aquarium);
+  var data = retrieveUserData();
+  if(data == null){
+    Logger.log("data is null");
+  }else{
+    aquarium = stringToArray(data.aquarium);
+    Logger.log("aquarium post recieval: " + aquarium);
+  }
+  return aquarium;
+
+}
+
+function getUsername(){
+  var username = "null";
+  var data = retrieveUserData();
+  if(data == null){
+    showPrompt();
+    getUsername(); // make recursive call
+  }
+  Logger.log("username = " +  username);
+  return retrieveUserData().username;
 }
 
 function getPoints(){
-  var points = parseInt(CacheService.getUserCache().get("points"));
-  Logger.log("Points = " +  points);
+  var points = 0;
+  var data = retrieveUserData();
+  if(data != null){
+    points= data.points;
+  }
+  Logger.log("points = " + points);
   return points;
 }
