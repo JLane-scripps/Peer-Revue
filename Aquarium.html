@@ -22,7 +22,7 @@
         background-color: #7acfcf;
         border: none;
         border-radius: 15px;
-        box-shadow: 0 9px #999;
+        box-shadow: 0 9px #999; 
       }
       .button1:hover {background-color: #379191}
       .button1:active {
@@ -38,6 +38,10 @@
         font-family: 'DS Marker Felt', sans-serif;
         font-size: 40px;
       }
+      canvas{
+          margin-left: -30px;
+      }
+
     </style>
   </head>
 
@@ -46,38 +50,263 @@
     <script>
     // retrieve point data 
     var points = window.opener.points; 
+
+
+
+/****************************************
+ * Function to flip image
+ * ************************************/ 
+function flipImageHorizontally(img) {
+  // Create a canvas element
+  var flipcanvas = document.createElement("flippedCanvas");
+
+  // Set the dimensions of the canvas to match the image
+  flipcanvas.width = img.width;
+  flipcanvas.height = img.height;
+
+  // Get the drawing context of the canvas
+  var flipctx = flipcanvas.getContext("2d");
+
+  // Draw the image on the canvas
+  flipctx.drawImage(img, 0, 0);
+
+  // Flip the image horizontally
+  flipctx.translate(img.width, 0);
+  flipctx.scale(-1, 1);
+  flipctx.drawImage(img, 0, 0);
+
+  // Create a new Image object from the canvas data
+  var flippedImg = new Image();
+  flippedImg.src = flipcanvas.toDataURL();
+
+  // Return the flipped image object
+  return flippedImg;
+}
+
+
     </script>
 
+<div style = "text-align:center;">
     <h1 class = "title"> Aquarium Title </h1>
-<h2 id="points"></h2>
-      <canvas id="canvas" width="800" height="600"></canvas>
-      
+      <canvas id="canvas" width="900" height="500"></canvas>
+      </div>
+      <div style = "text-align:center;">
         <!-- Purchase Buttons ---> 
-        <button class = "button1" id="spendFiftyPoints">50 Pts</button>
-        <button class = "button1" id="spendHundredPoints">100 Pts</button>
-
-
+        <button class = "button1" id="clownFishButton">clown fish </button>
+        <button class = "button1" id="pufferFishButton">puffer fish </button>
+        <button class = "button1" id="cuteFishButton">cute fish </button>
+        <button class = "button1" id="blobFishButton">blob fish </button>
+        <button class = "button1" id="greenFishButton">green fish </button>
+      </div>
 
 
 
   <script>
 
 
-
 /**************************************************************************
  *  Game region 
  * ************************************************************************/
+// Create the canvas
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
+ 
+var fishCount = window.opener.aquariumData;
 
-  // Create the canvas
-  var canvas = document.getElementById("canvas");
-  var ctx = canvas.getContext("2d");
+// set dimensions for the aquarium image
+var aquariumWidth = canvas.width;
+var aquariumHeight = canvas.height;
 
-    var img = new Image();
-		img.onload = function() {
-		  ctx.drawImage(img, 50, 0, 700, 400);
+var bgImg = new Image();
+	bgImg.onload = function() {
+		  ctx.drawImage(bgImg, 0, 0, aquariumWidth, aquariumHeight);
 		}
-		img.src = "https://drive.google.com/uc?id=1BnOg1MAp6xUSbdNYHhpCN59pJwBxDRUI";
+bgImg.src = "https://drive.google.com/uc?id=1BnOg1MAp6xUSbdNYHhpCN59pJwBxDRUI";
   
+
+// array of in-game fish
+var fish =[];
+// set size dimensions for fish
+var fishDim = 70;
+
+class Fish{
+  constructor(x,y, vx, vy, image){
+    this.image = image;
+
+ // position
+    this.x =x;
+    this.y =y;
+
+  // velocity
+    this.vx = vx;
+    this.vy = vy;
+    
+
+  // acceleration
+    this.ax =0;
+    this.ay = 0;
+
+// max force and speed
+  this.maxForce = 0.2;
+  this.maxSpeed = 3;
+
+
+
+}
+  
+
+
+
+// update fish posiiton
+  update(boids) {
+    // Calculate the average position and velocity of neighboring boids
+    let avgX = 0;
+    let avgY = 0;
+    let avgVx = 0;
+    let avgVy = 0;
+    let numNeighbors = 0;
+
+    for (const boid of boids) {
+      if (boid !== this) {
+        const dx = boid.x - this.x;
+        const dy = boid.y - this.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 50) {
+          avgX += boid.x;
+          avgY += boid.y;
+          avgVx += boid.vx;
+          avgVy += boid.vy;
+          numNeighbors++;
+        }
+
+        // Apply separation behavior to avoid crowding
+        if (distance < 50) {
+          this.vx -= dx / distance;
+          this.vy -= dy / distance;
+        }
+      }
+    }
+
+    if (numNeighbors > 0) {
+      avgX /= numNeighbors;
+      avgY /= numNeighbors;
+      avgVx /= numNeighbors;
+      avgVy /= numNeighbors;
+
+      // Adjust the boid's velocity based on the average velocity of neighbors
+      this.vx += (avgVx - this.vx) * 0.1;
+      this.vy += (avgVy - this.vy) * 0.1;
+
+      // Adjust the boid's velocity based on the average position of neighbors
+      const dx = avgX - this.x;
+      const dy = avgY - this.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance > 0) {
+        this.vx += (dx / distance) * 0.05;
+        this.vy += (dy / distance) * 0.05;
+      }
+    }
+
+    // Limit the boid's velocity
+    const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+    if (speed > 2) {
+      this.vx = (this.vx / speed) * 2;
+      this.vy = (this.vy / speed) * 2;
+    }
+
+    // Update the boid's position
+    this.x += this.vx;
+    this.y += this.vy;
+
+    // Bounce off the edges of the screen
+    if (this.x < 0 || this.x > canvas.width) {
+      this.vx *= -1;
+    //  this.image = flipImageHorizontally(this.image);
+    }
+    if (this.y < 0 || this.y > canvas.height) {
+      this.vy *= -1;
+    }
+
+
+  }
+
+
+
+  draw(ctx) {
+  
+    // Draw the fish
+    ctx.drawImage(this.image, this.x - this.image.width / 2, this.y - this.image.height / 2,fishDim,fishDim);
+    
+  }
+
+} // end of fish class
+
+/*****************************************************
+ *  Function to spawn fish
+ * ***************************************************/
+  // lets create some fish boids
+
+function createFish(_image){
+   x = Math.random() * aquariumWidth;
+   y = Math.random() * aquariumHeight;
+   vx = Math.random() * 2 - 1;
+   vy = Math.random() * 2 - 1;
+   boid = new Fish(x, y, vx, vy, _image);
+  fish.push(boid);
+}
+
+function loadFish(){
+  for(let i = 0 ; i < fishCount.length; i++){
+      for(let j = 0; j < fishCount[i]; j++){
+          createFish(fishImages[i]);
+
+      }
+  }
+}
+
+
+// Lets get our fish sprites!
+var fishImages =[];
+
+var cuteFishImg = new Image();
+cuteFishImg.src = 'https://drive.google.com/uc?id=1aXy6zN4_A_alB8GfkVMQk0dlSrQrCy6L';
+fishImages.push(cuteFishImg);
+cuteFishImg.onload = function() {
+		 // ctx.cuteFishImg(cuteFishImg, 0, 0,fishDim,fishDim );
+		}
+
+var clownFishImg = new Image();
+clownFishImg.src = 'https://drive.google.com/uc?id=1ILLJhvDc12QaNu9gXNBEwNRjVtdt82Nm';
+clownFishImg.onload = function() {
+		//  ctx.drawImage(clownFishImg, 0, 0, fishDim,fishDim);
+		}
+
+fishImages.push(clownFishImg);
+
+var pufferFishImg = new Image();
+pufferFishImg.src = 'https://drive.google.com/uc?id=1pHxAexwLr_mKxd4-mFAQAgjrn3U0L_Go';
+
+pufferFishImg.onload = function() {
+		 // ctx.drawImage(pufferFishImg, 0, 0,fishDim,fishDim);
+		}
+fishImages.push(pufferFishImg);
+
+var blobFishImg = new Image();
+blobFishImg.src = 'https://drive.google.com/uc?id=1AvbkRXMvkhPq1LpJLSwZOOnER3nruvZ1';
+blobFishImg.onload = function(){
+  //ctx.drawImage(blobFishImg, 0, 0, fishDim,fishDim);
+}
+fishImages.push(blobFishImg);
+
+var greenFishImg = new Image();
+greenFishImg.src = 'https://drive.google.com/uc?id=10CIwSgj7A-1rH1QUjY2QPxXmskK5RPJw';
+greenFishImg.onload = function(){
+  //ctx.drawImage(greenFishImg, 0, 0, fishDim,fishDim);
+}
+fishImages.push(greenFishImg);
+
+loadFish();
 
 // Draw dynamic integer value
       ctx.font = "30px Arial";
@@ -85,42 +314,118 @@
         // update point value from Peer Revue
         points = window.opener.points; 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 50, 0, 700, 400); //redraw image
+        
+        ctx.drawImage(bgImg, 0, 0, aquariumWidth, aquariumHeight); //redraw image
+
+       for( let i =0; i <= fish.length; i++){
+        const boid = fish[i];
+        boid.update(fish);
+        boid.draw(ctx);
+       }
         ctx.fillText("Points: " + points, canvas.width/2, 500); // draw updated value
-      }, 1000); // update the value every 1000 milliseconds (1 second)
+
+      }, 8); // 16 ms =~ 60 fps 
 
 
   </script>
 
 
-
-
   </body>
   <script>
+
+
+
+/****************************************************
+ *  Function to sync data to Peer Revue
+ * ***********************************************/
+ function SyncData() {
+    window.opener.aquariumData = fishCount;
+  }
+
+
 /*******************************************************************
  *  Purchase Button & Background region
  * *****************************************************************/
     document.querySelector("body").style.backgroundColor = "darkblue";
 
-    /* Spend 50 Points button functionality  */
-    document.getElementById("spendFiftyPoints").addEventListener("click", function() {
+    /* clownfish button functionality  */
+    document.getElementById("clownFishButton").addEventListener("click", function() {
       if(points >= 50){
           // update points in game window
             points-=50;
           //update points in peer revue widget
             window.opener.points = points;
+
+            //add to the fish boid array
+            createFish(clownFishImg);
             window.opener.updatePointsAfterGamePurchase(" -50 Enjoy your fish! ");
+            fishCount[1]++;
+            SyncData();
+            
       }
 
     }); 
-    /* Spend 100 Points button functionality  */
-    document.getElementById("spendHundredPoints").addEventListener("click", function() {
-        if(points >= 100){
+    /* greenfish button functionality  */
+    document.getElementById("greenFishButton").addEventListener("click", function() {
+      if(points >= 50){
           // update points in game window
-            points-=100;
+            points-=50;
+          //update points in peer revue widget
+            window.opener.points = points;
+
+            //add to the fish boid array
+            createFish(greenFishImg);
+            window.opener.updatePointsAfterGamePurchase(" -50 Enjoy your fish! ");
+            fishCount[4]++;
+            SyncData();
+      }
+
+    }); 
+   /* cute button functionality  */
+    document.getElementById("cuteFishButton").addEventListener("click", function() {
+      if(points >= 50){
+          // update points in game window
+            points-=50;
+          //update points in peer revue widget
+            window.opener.points = points;
+            //add to the fish boid array
+            createFish(cuteFishImg);
+            window.opener.updatePointsAfterGamePurchase(" -50 Enjoy your fish! ");
+            fishCount[0]++;
+            SyncData();
+      }
+
+    }); 
+
+    /* pufferfish button functionality  */
+    document.getElementById("pufferFishButton").addEventListener("click", function() {
+        if(points >= 50){
+          // update points in game window
+            points-=50;
             //update points in peer revue widget
             window.opener.points = points;
-            window.opener.updatePointsAfterGamePurchase(" -100 Enjoy your fish! ");
+
+            // add to the fish boid array
+            createFish(pufferFishImg);
+            window.opener.updatePointsAfterGamePurchase(" -50 Enjoy your fish! ");
+            fishCount[2]++;
+            SyncData();
+      }
+    }); 
+
+       /* blobfish button functionality  */
+    document.getElementById("blobFishButton").addEventListener("click", function() {
+        if(points >= 50){
+          // update points in game window
+            points-=50;
+            //update points in peer revue widget
+            window.opener.points = points;
+
+            // add to the fish boid array
+            createFish(blobFishImg);
+            window.opener.updatePointsAfterGamePurchase(" -50 Enjoy your fish! ");
+            fishCount[3]++;
+            SyncData();
       }
     }); 
         
